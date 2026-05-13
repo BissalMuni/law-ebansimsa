@@ -54,22 +54,6 @@ opendataloader_pdf.convert(
 opendataloader-pdf "2022 ebansimsa.pdf" "2025 jungbigijun.pdf"
 ```
 
-### LangChain 연동
-
-```bash
-pip install -U langchain-opendataloader-pdf
-```
-
-```python
-from langchain_opendataloader_pdf import OpenDataLoaderPDFLoader
-
-loader = OpenDataLoaderPDFLoader(
-    file_path=["2022 ebansimsa.pdf"],
-    format="text"
-)
-documents = loader.load()
-```
-
 ---
 
 ## 기존 도구 (대안)
