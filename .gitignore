@@ -1,0 +1,10 @@
+# PDF 원본 (용량이 크므로 Git에서 제외, 별도 관리)
+*.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
