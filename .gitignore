@@ -5,6 +5,12 @@
 .DS_Store
 Thumbs.db
 
+# Output 재생성 가능 파일 (PDF에서 추출된 이미지)
+output/*_images/
+
 # Editor
 .vscode/
 *.swp
+
+# Python
+__pycache__/
