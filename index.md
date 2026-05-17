@@ -1,22 +1,161 @@
-# 법령 이반심사 LLM Wiki — Index
+# Law-Ebansimsa Wiki Index
 
-> Karpathy's LLM Wiki 패턴을 적용한 법령 지식 베이스
+> LLM Wiki 지식베이스 — 자치법규 입안 심사 기준서
 
-## 프로젝트 문서
+## 2022년 자치법규 입안 길라잡이
 
-- [llm-wiki-analysis.md](llm-wiki-analysis.md) — LLM Wiki 패턴 분석
-- [pdf-parsing-strategy.md](pdf-parsing-strategy.md) — PDF 파싱 전략 및 도구
+- 1 제1편 자치법규 입안의 기본원칙
+  - [1.1 제1장 자치법규 입안의 의의](output/ebansimsa/wiki/1.1-제1장_자치법규_입안의_의의.md)
+  - 1.2 제2장 입법의 필요성 판단과 입법 형식의 선택
+    - [1.2.1 자치법규 관계 법령](output/ebansimsa/wiki/1.2.1-자치법규_관계_법령.md)
+    - [1.2.2 자치법규의 종류](output/ebansimsa/wiki/1.2.2-자치법규의_종류.md)
+    - [1.2.3 입법의 필요성 및 가능 여부 판단](output/ebansimsa/wiki/1.2.3-입법의_필요성_및_가능_여부_판단.md)
+    - [1.2.4 입법형식의 선택](output/ebansimsa/wiki/1.2.4-입법형식의_선택.md)
+    - [1.2.5 개정·제정방식의 선택](output/ebansimsa/wiki/1.2.5-개정제정방식의_선택.md)
+    - [1.2.6 자치법규의 효력](output/ebansimsa/wiki/1.2.6-자치법규의_효력.md)
+  - 1.3 제3장 자치법규 입안의 기본원칙
+    - [1.3.1 소관사무의 원칙](output/ebansimsa/wiki/1.3.1-소관사무의_원칙.md)
+    - [1.3.2 법령 우위의 원칙](output/ebansimsa/wiki/1.3.2-법령_우위의_원칙.md)
+    - [1.3.3 법률 유보의 원칙](output/ebansimsa/wiki/1.3.3-법률_유보의_원칙.md)
+    - [1.3.4 집행기관과 의결기관 간 견제와 균형의 원리](output/ebansimsa/wiki/1.3.4-집행기관과_의결기관_간_견제와_균형의_원리.md)
+    - [1.3.5 법의 일반원칙](output/ebansimsa/wiki/1.3.5-법의_일반원칙.md)
+- 2 제2편 세부 입안기준
+  - 2.1 제1장 총칙규정
+    - [2.1.1 개관](output/ebansimsa/wiki/2.1.1-개관.md)
+    - [2.1.2 목적규정](output/ebansimsa/wiki/2.1.2-목적규정.md)
+    - [2.1.3 기본이념에 관한 규정](output/ebansimsa/wiki/2.1.3-기본이념에_관한_규정.md)
+    - [2.1.4 정의규정](output/ebansimsa/wiki/2.1.4-정의규정.md)
+    - [2.1.5 해석규정](output/ebansimsa/wiki/2.1.5-해석규정.md)
+    - [2.1.6 시장 등의 책무·책임 등에 관한 규정](output/ebansimsa/wiki/2.1.6-시장_등의_책무책임_등에_관한_규정.md)
+    - [2.1.7 적용 범위에 관한 규정](output/ebansimsa/wiki/2.1.7-적용_범위에_관한_규정.md)
+    - [2.1.8 다른 조례 또는 규칙과의 관계에 관한 규정](output/ebansimsa/wiki/2.1.8-다른_조례_또는_규칙과의_관계에_관한_규정.md)
+  - 2.2 제2장 본칙규정
+    - [2.2.1 지방공무원](output/ebansimsa/wiki/2.2.1-지방공무원.md)
+    - [2.2.2 보조·출연](output/ebansimsa/wiki/2.2.2-보조출연.md)
+    - [2.2.3 공유재산의 관리·처분](output/ebansimsa/wiki/2.2.3-공유재산의_관리처분.md)
+    - [2.2.4 재정·회계 제도](output/ebansimsa/wiki/2.2.4-재정회계_제도.md)
+    - [2.2.5 기금](output/ebansimsa/wiki/2.2.5-기금.md)
+    - [2.2.6 사용료·수수료](output/ebansimsa/wiki/2.2.6-사용료수수료.md)
+    - [2.2.7 위원회](output/ebansimsa/wiki/2.2.7-위원회.md)
+    - [2.2.8 행정절차](output/ebansimsa/wiki/2.2.8-행정절차.md)
+    - [2.2.9 출자·출연 기관 및 공기업](output/ebansimsa/wiki/2.2.9-출자출연_기관_및_공기업.md)
+    - [2.2.10 권한의 위임 및 위탁](output/ebansimsa/wiki/2.2.10-권한의_위임_및_위탁.md)
+    - [2.2.11 과태료](output/ebansimsa/wiki/2.2.11-과태료.md)
+  - 2.3 제3장 부칙규정
+    - [2.3.1 개관](output/ebansimsa/wiki/2.3.1-개관.md)
+    - [2.3.2 시행일에 관한 규정](output/ebansimsa/wiki/2.3.2-시행일에_관한_규정.md)
+    - [2.3.3 유효기간에 관한 규정](output/ebansimsa/wiki/2.3.3-유효기간에_관한_규정.md)
+    - [2.3.4 다른 조례 또는 규칙을 폐지하는 규정](output/ebansimsa/wiki/2.3.4-다른_조례_또는_규칙을_폐지하는_규정.md)
+    - [2.3.5 조례 또는 규칙의 시행을 위한 준비행위에 관한 규정](output/ebansimsa/wiki/2.3.5-조례_또는_규칙의_시행을_위한_준비행위에_관한_규정.md)
+    - [2.3.6 적용례, 특례 및 경과조치에 관한 규정](output/ebansimsa/wiki/2.3.6-적용례_특례_및_경과조치에_관한_규정.md)
+    - [2.3.7 다른 조례 또는 규칙의 개정에 관한 규정](output/ebansimsa/wiki/2.3.7-다른_조례_또는_규칙의_개정에_관한_규정.md)
+    - [2.3.8 다른 조례 또는 규칙과의 관계에 관한 규정](output/ebansimsa/wiki/2.3.8-다른_조례_또는_규칙과의_관계에_관한_규정.md)
+- 3 제3편 자치법규의 체제와 개정·폐지 방식
+  - 3.1 제1장 자치법규의 체제
+    - [3.1.1 의의](output/ebansimsa/wiki/3.1.1-의의.md)
+    - [3.1.2 자치법규의 제명](output/ebansimsa/wiki/3.1.2-자치법규의_제명.md)
+    - [3.1.3 본칙 및 부칙의 체제](output/ebansimsa/wiki/3.1.3-본칙_및_부칙의_체제.md)
+    - [3.1.4 자치법규 조항의 구성방법](output/ebansimsa/wiki/3.1.4-자치법규_조항의_구성방법.md)
+    - [3.1.5 별표나 별지 서식의 사용 방법](output/ebansimsa/wiki/3.1.5-별표나_별지_서식의_사용_방법.md)
+    - [3.1.6 자치법규안 작성 형식](output/ebansimsa/wiki/3.1.6-자치법규안_작성_형식.md)
+  - 3.2 제2장 자치법규의 개정 방식과 폐지 방식
+    - [3.2.1 개정 방식의 유형과 기준](output/ebansimsa/wiki/3.2.1-개정_방식의_유형과_기준.md)
+    - [3.2.2 일부개정 방식](output/ebansimsa/wiki/3.2.2-일부개정_방식.md)
+    - [3.2.3 전부개정 방식](output/ebansimsa/wiki/3.2.3-전부개정_방식.md)
+    - [3.2.4 폐지 방식](output/ebansimsa/wiki/3.2.4-폐지_방식.md)
+    - [3.2.5 관련성 있는 자치법규를 함께 개정하는 방식](output/ebansimsa/wiki/3.2.5-관련성_있는_자치법규를_함께_개정하는_방식.md)
+  - 3.3 제3장 용어와 표현
+    - [3.3.1 용어 사용 기준](output/ebansimsa/wiki/3.3.1-용어_사용_기준.md)
+    - [3.3.2 한자어, 외래어 등 용어의 정비](output/ebansimsa/wiki/3.3.2-한자어_외래어_등_용어의_정비.md)
+    - [3.3.3 자치법규 조항의 인용·표시 방법](output/ebansimsa/wiki/3.3.3-자치법규_조항의_인용표시_방법.md)
+    - [3.3.4 약칭과 준용 등 특수한 표현](output/ebansimsa/wiki/3.3.4-약칭과_준용_등_특수한_표현.md)
+  - 3.4 제4장 문장 작성의 원칙
+    - [3.4.1 문장의 중요성](output/ebansimsa/wiki/3.4.1-문장의_중요성.md)
+    - [3.4.2 문장 바르게 쓰기](output/ebansimsa/wiki/3.4.2-문장_바르게_쓰기.md)
+- 4 제4편 부록
+  - [4.1 자치법규 입안 체크리스트](output/ebansimsa/wiki/4.1-자치법규_입안_체크리스트.md)
+  - [4.2 자치법규 입법 절차](output/ebansimsa/wiki/4.2-자치법규_입법_절차.md)
+    - [4.2.1 의의](output/ebansimsa/wiki/4.2.1-의의.md)
+    - [4.2.2 주요 자치입법절차](output/ebansimsa/wiki/4.2.2-주요_자치입법절차.md)
+    - [4.2.3 주민 청구에 의한 조례 (주민조례발안)](output/ebansimsa/wiki/4.2.3-주민_청구에_의한_조례_주민조례발안.md)
+  - [4.3 조례 작성례](output/ebansimsa/wiki/4.3-조례_작성례.md)
 
-## 소스 목차 (Table of Contents)
+## 2025년 알기 쉬운 법령 정비기준
 
-- [toc-2022-ebansimsa.md](toc-2022-ebansimsa.md) — 2022 자치법규 입안 길라잡이 (492p)
-- [toc-2025-jungbigijun.md](toc-2025-jungbigijun.md) — 2025 알기 쉬운 법령 정비기준 (286p)
-
-## 원본 소스 (Raw Sources)
-
-- `2022 ebansimsa.pdf` — 자치법규 입안 길라잡이 (법제처, 2022)
-- `2025 jungbigijun.pdf` — 알기 쉬운 법령 정비기준 제11판 (법제처, 2025)
-
-## 위키 페이지 (추후 생성)
-
-<!-- Ingest 후 섹션별 위키 페이지가 여기에 추가됨 -->
+- 1 제1장 알기 쉬운 법령 만들기 사업 소개
+  - [1.1 제1절 알기 쉬운 법령 만들기(알법) 사업 경과](output/jungbigijun/wiki/1.1-제1절_알기_쉬운_법령_만들기알법_사업_경과.md)
+  - [1.2 제2절 알법의 필요성](output/jungbigijun/wiki/1.2-제2절_알법의_필요성.md)
+  - [1.3 제3절 알법의 기본 원칙](output/jungbigijun/wiki/1.3-제3절_알법의_기본_원칙.md)
+- 2 제2장 용어편
+  - [2.1 제1절 용어 정비의 원칙](output/jungbigijun/wiki/2.1-제1절_용어_정비의_원칙.md)
+  - 2.2 제2절 용어 정비의 실제
+    - 2.2.1 어려운 한자어
+      - [2.2.1.1 쉬운 말로 고치기](output/jungbigijun/wiki/2.2.1.1-쉬운_말로_고치기.md)
+      - [2.2.1.2 쉬운 말로 풀어 쓰기](output/jungbigijun/wiki/2.2.1.2-쉬운_말로_풀어_쓰기.md)
+      - [2.2.1.3 축약어 풀어 쓰기](output/jungbigijun/wiki/2.2.1.3-축약어_풀어_쓰기.md)
+      - [2.2.1.4 문맥에 따라 고쳐 쓰기](output/jungbigijun/wiki/2.2.1.4-문맥에_따라_고쳐_쓰기.md)
+      - [2.2.1.5 설명 붙이기](output/jungbigijun/wiki/2.2.1.5-설명_붙이기.md)
+      - [2.2.1.6 한자를 같이 쓰기](output/jungbigijun/wiki/2.2.1.6-한자를_같이_쓰기.md)
+      - [2.2.1.7 바꿀 수 있는 것만이라도 우선 바꾸기](output/jungbigijun/wiki/2.2.1.7-바꿀_수_있는_것만이라도_우선_바꾸기.md)
+      - [2.2.1.8 한문 투 표현 고치기](output/jungbigijun/wiki/2.2.1.8-한문_투_표현_고치기.md)
+      - [2.2.1.9 한자어의 본뜻대로 바르게 쓰기](output/jungbigijun/wiki/2.2.1.9-한자어의_본뜻대로_바르게_쓰기.md)
+      - [2.2.1.10 굳어진 용어는 그대로 쓰기](output/jungbigijun/wiki/2.2.1.10-굳어진_용어는_그대로_쓰기.md)
+    - 2.2.2 일본식 용어
+      - [2.2.2.1 일본식 한자어](output/jungbigijun/wiki/2.2.2.1-일본식_한자어.md)
+      - [2.2.2.2 일본식 외래어](output/jungbigijun/wiki/2.2.2.2-일본식_외래어.md)
+    - 2.2.3 전문용어
+      - [2.2.3.1 전문용어의 뜻과 정비 필요성](output/jungbigijun/wiki/2.2.3.1-전문용어의_뜻과_정비_필요성.md)
+      - [2.2.3.2 전문용어 정비 원칙](output/jungbigijun/wiki/2.2.3.2-전문용어_정비_원칙.md)
+      - [2.2.3.3 전문용어 정비 유형 및 예시](output/jungbigijun/wiki/2.2.3.3-전문용어_정비_유형_및_예시.md)
+      - [2.2.3.4 분야별 전문용어 정비 목록](output/jungbigijun/wiki/2.2.3.4-분야별_전문용어_정비_목록.md)
+    - 2.2.4 외래어와 외국어
+      - [2.2.4.1 외래어와 외국어의 순화 및 정비](output/jungbigijun/wiki/2.2.4.1-외래어와_외국어의_순화_및_정비.md)
+      - [2.2.4.2 외래어와 외국어 표기 시 유의사항](output/jungbigijun/wiki/2.2.4.2-외래어와_외국어_표기_시_유의사항.md)
+      - [2.2.4.3 법령 이름 속의 외국어](output/jungbigijun/wiki/2.2.4.3-법령_이름_속의_외국어.md)
+      - [2.2.4.4 원어(외국 글자) 표기 시 대문자·소문자 사용법](output/jungbigijun/wiki/2.2.4.4-원어외국_글자_표기_시_대문자소문자_사용법.md)
+    - 2.2.5 차별적·권위적 용어
+      - [2.2.5.1 차별적 용어의 정비](output/jungbigijun/wiki/2.2.5.1-차별적_용어의_정비.md)
+      - [2.2.5.2 권위적 용어의 정비](output/jungbigijun/wiki/2.2.5.2-권위적_용어의_정비.md)
+    - 2.2.6 법령문의 관용적 표현 등
+      - [2.2.6.1 관용적 표현](output/jungbigijun/wiki/2.2.6.1-관용적_표현.md)
+      - [2.2.6.2 조사](output/jungbigijun/wiki/2.2.6.2-조사.md)
+      - [2.2.6.3 숫자](output/jungbigijun/wiki/2.2.6.3-숫자.md)
+      - [2.2.6.4 준말과 본딧말](output/jungbigijun/wiki/2.2.6.4-준말과_본딧말.md)
+      - [2.2.6.5 통일해서 쓸 용어](output/jungbigijun/wiki/2.2.6.5-통일해서_쓸_용어.md)
+      - [2.2.6.6 구별해서 쓸 용어](output/jungbigijun/wiki/2.2.6.6-구별해서_쓸_용어.md)
+    - 2.2.7 어문 규정
+      - [2.2.7.1 띄어쓰기](output/jungbigijun/wiki/2.2.7.1-띄어쓰기.md)
+      - [2.2.7.2 두음법칙](output/jungbigijun/wiki/2.2.7.2-두음법칙.md)
+      - [2.2.7.3 문장부호](output/jungbigijun/wiki/2.2.7.3-문장부호.md)
+- 3 제3장 문장편
+  - [3.1 제1절 문장 정비의 원칙](output/jungbigijun/wiki/3.1-제1절_문장_정비의_원칙.md)
+  - 3.2 제2절 문장 정비의 실제
+    - 3.2.1 바른 문장 쓰기
+      - [3.2.1.1 주어를 분명히 밝힌다](output/jungbigijun/wiki/3.2.1.1-주어를_분명히_밝힌다.md)
+      - [3.2.1.2 목적어를 분명히 밝힌다](output/jungbigijun/wiki/3.2.1.2-목적어를_분명히_밝힌다.md)
+      - [3.2.1.3 주어와 서술어의 관계를 명확히 한다](output/jungbigijun/wiki/3.2.1.3-주어와_서술어의_관계를_명확히_한다.md)
+    - 3.2.2 간결한 문장 쓰기
+      - [3.2.2.1 긴 문장은 짧게 나누어 쓴다](output/jungbigijun/wiki/3.2.2.1-긴_문장은_짧게_나누어_쓴다.md)
+      - [3.2.2.2 중복되거나 불필요한 내용은 삭제한다](output/jungbigijun/wiki/3.2.2.2-중복되거나_불필요한_내용은_삭제한다.md)
+    - 3.2.3 명확한 문장 쓰기
+      - [3.2.3.1 '또는', '및'의 접속 관계를 분명하게 쓴다](output/jungbigijun/wiki/3.2.3.1-또는_및의_접속_관계를_분명하게_쓴다.md)
+      - [3.2.3.2 의미가 불명확한 수식어를 쓰지 않는다](output/jungbigijun/wiki/3.2.3.2-의미가_불명확한_수식어를_쓰지_않는다.md)
+      - [3.2.3.3 중의적, 다의적 표현은 정확한 표현으로 고쳐 쓴다](output/jungbigijun/wiki/3.2.3.3-중의적_다의적_표현은_정확한_표현으로_고쳐_쓴다.md)
+      - [3.2.3.4 이중 부정문은 되도록 긍정문으로 쓴다](output/jungbigijun/wiki/3.2.3.4-이중_부정문은_되도록_긍정문으로_쓴다.md)
+      - [3.2.3.5 지시어의 내용을 직접 쓴다](output/jungbigijun/wiki/3.2.3.5-지시어의_내용을_직접_쓴다.md)
+      - [3.2.3.6 문맥상 필요한 내용을 생략하지 않는다](output/jungbigijun/wiki/3.2.3.6-문맥상_필요한_내용을_생략하지_않는다.md)
+    - 3.2.4 자연스러운 문장 쓰기
+      - [3.2.4.1 되도록 능동문으로 쓴다](output/jungbigijun/wiki/3.2.4.1-되도록_능동문으로_쓴다.md)
+      - [3.2.4.2 일본어 투 표현을 쓰지 않는다](output/jungbigijun/wiki/3.2.4.2-일본어_투_표현을_쓰지_않는다.md)
+      - [3.2.4.3 어순을 자연스럽게 한다](output/jungbigijun/wiki/3.2.4.3-어순을_자연스럽게_한다.md)
+    - 3.2.5 한눈에 보이는 문장 쓰기
+      - [3.2.5.1 표를 활용한다](output/jungbigijun/wiki/3.2.5.1-표를_활용한다.md)
+      - [3.2.5.2 계산식을 활용한다](output/jungbigijun/wiki/3.2.5.2-계산식을_활용한다.md)
+      - [3.2.5.3 그림을 활용한다](output/jungbigijun/wiki/3.2.5.3-그림을_활용한다.md)
+- 4 제4장 법령 유형별 작성례
+  - [4.1 법률 작성례](output/jungbigijun/wiki/4.1-법률_작성례.md)
+  - [4.2 대통령령 작성례](output/jungbigijun/wiki/4.2-대통령령_작성례.md)
+  - [4.3 부령 작성례](output/jungbigijun/wiki/4.3-부령_작성례.md)
+- 5 제5장 어문 규정
+  - [5.1 한글 맞춤법](output/jungbigijun/wiki/5.1-한글_맞춤법.md)
+  - [5.2 외래어 표기법](output/jungbigijun/wiki/5.2-외래어_표기법.md)
