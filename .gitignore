@@ -7,6 +7,7 @@ Thumbs.db
 
 # Output 재생성 가능 파일 (PDF에서 추출된 이미지)
 output/*_images/
+output/**/*_images/
 
 # Editor
 .vscode/
