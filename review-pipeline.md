@@ -38,7 +38,7 @@
 
 ### [2] 심사 기준 로딩 — `criteria_loader.py`
 
-- `backend/config/criteria_registry.json`에서 활성화된 기준 로딩
+- `pipeline/config/criteria_registry.json`에서 활성화된 기준 로딩
 - 각 기준 = wiki 지식베이스의 1페이지
 - 기준 범위 자동 분류:
   - **DOCUMENT_LEVEL**: `__DOCUMENT__`에만 적용 (1회)
@@ -54,7 +54,7 @@
 ### [4] Stage 1: 관련성 필터 — `relevance_filter.py`
 
 - **모델**: Haiku (응답 8토큰 이내)
-- **프롬프트**: `backend/config/prompts/relevance.txt`
+- **프롬프트**: `pipeline/config/prompts/relevance.txt`
 - 각 셀에 대해 해당 기준이 해당 조문에 관련 있는지 Yes/No 판단
 - 조문 미리보기(500자) + 기준 제목으로 판단
 - 관련 없는 셀은 Stage 2 건너뜀
@@ -63,7 +63,7 @@
 ### [5] Stage 2: 정밀 심사 — `detailed_reviewer.py`
 
 - **모델**: Sonnet (응답 1024토큰)
-- **프롬프트**: `backend/config/prompts/review.txt`
+- **프롬프트**: `pipeline/config/prompts/review.txt`
 - Stage 1에서 관련 있다고 판단된 셀만 대상
 - 조문 전문 + 기준 전문(최대 15K자)을 LLM에 전달
 - JSON 응답 파싱: `{verdict, reason, suggestion}`
@@ -94,13 +94,13 @@
 
 ```bash
 # 기본 실행 (Stage 2만)
-python -m backend.review.cli 조례안.txt
+python -m pipeline.review.cli 조례안.txt
 
 # 2단계 필터링 + 동시 실행 10개
-python -m backend.review.cli 조례안.txt --two-stage --concurrency 10
+python -m pipeline.review.cli 조례안.txt --two-stage --concurrency 10
 
 # 중단된 실행 재개
-python -m backend.review.cli 조례안.txt --resume checkpoint.json
+python -m pipeline.review.cli 조례안.txt --resume checkpoint.json
 ```
 
 ### CLI 옵션
@@ -117,7 +117,7 @@ python -m backend.review.cli 조례안.txt --resume checkpoint.json
 ## 주요 파일 맵
 
 ```
-backend/
+pipeline/
 ├── config/
 │   ├── criteria_registry.json   # 심사 기준 레지스트리
 │   └── prompts/

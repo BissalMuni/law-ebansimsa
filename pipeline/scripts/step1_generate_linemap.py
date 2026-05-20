@@ -4,8 +4,8 @@
 toc-coded.md의 각 헤딩을 원본 md에서 검색하여
 시작줄/종료줄을 매핑한 0.x-라인맵.md를 생성한다.
 
-사용법: python backend/scripts/step1_generate_linemap.py <문서폴더명>
-예: python backend/scripts/step1_generate_linemap.py ebansimsa
+사용법: python pipeline/scripts/step1_generate_linemap.py <문서폴더명>
+예: python pipeline/scripts/step1_generate_linemap.py ebansimsa
 """
 
 import sys

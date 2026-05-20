@@ -12,7 +12,7 @@ from .llm_client import LLMClient
 logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-PROMPT_PATH = PROJECT_ROOT / "backend" / "config" / "prompts" / "review.txt"
+PROMPT_PATH = PROJECT_ROOT / "pipeline" / "config" / "prompts" / "review.txt"
 
 
 def _build_user_prompt(article: Article, criterion: Criterion) -> str:

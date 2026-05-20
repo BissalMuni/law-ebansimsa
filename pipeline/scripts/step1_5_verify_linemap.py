@@ -4,8 +4,8 @@
 라인맵의 각 시작줄에 해당하는 원본 md의 실제 텍스트를 추출하여
 목차 코드의 제목과 비교한다.
 
-사용법: python backend/scripts/step1_5_verify_linemap.py <문서폴더명>
-예: python backend/scripts/step1_5_verify_linemap.py ebansimsa
+사용법: python pipeline/scripts/step1_5_verify_linemap.py <문서폴더명>
+예: python pipeline/scripts/step1_5_verify_linemap.py ebansimsa
 """
 
 import sys

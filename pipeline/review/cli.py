@@ -1,9 +1,9 @@
 """심사 파이프라인 CLI 진입점
 
 사용법:
-    python -m backend.review.cli 조례안.txt
-    python -m backend.review.cli 조례안.txt --two-stage --concurrency 10
-    python -m backend.review.cli 조례안.txt --resume checkpoint.json
+    python -m pipeline.review.cli 조례안.txt
+    python -m pipeline.review.cli 조례안.txt --two-stage --concurrency 10
+    python -m pipeline.review.cli 조례안.txt --resume checkpoint.json
 """
 
 from __future__ import annotations

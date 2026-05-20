@@ -119,7 +119,7 @@ def build_default_registry(wiki_base: Path | None = None) -> dict:
 def save_registry(registry: dict, path: Path | None = None) -> Path:
     """레지스트리를 JSON으로 저장"""
     if path is None:
-        path = PROJECT_ROOT / 'backend' / 'config' / 'criteria_registry.json'
+        path = PROJECT_ROOT / 'pipeline' / 'config' / 'criteria_registry.json'
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         json.dumps(registry, ensure_ascii=False, indent=2),
@@ -143,7 +143,7 @@ def load_criteria(
         활성화된 Criterion 리스트
     """
     if registry_path is None:
-        registry_path = PROJECT_ROOT / 'backend' / 'config' / 'criteria_registry.json'
+        registry_path = PROJECT_ROOT / 'pipeline' / 'config' / 'criteria_registry.json'
 
     data = json.loads(registry_path.read_text(encoding='utf-8'))
 

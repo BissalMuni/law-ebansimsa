@@ -1,7 +1,7 @@
 """
 PDF → Wiki 마크다운 변환 스크립트
 
-사용법: python backend/scripts/parse_pdfs.py
+사용법: python pipeline/scripts/parse_pdfs.py
 
 1. OpenDataLoader PDF로 전체 PDF를 마크다운으로 변환
 2. TOC 기반으로 섹션별 분할

@@ -4,8 +4,8 @@
 0.x-라인맵.md를 읽어서 원본 md를 슬라이싱하고
 각 섹션별 위키 파일을 생성한다.
 
-사용법: python backend/scripts/step2_generate_wiki.py <문서폴더명>
-예: python backend/scripts/step2_generate_wiki.py ebansimsa
+사용법: python pipeline/scripts/step2_generate_wiki.py <문서폴더명>
+예: python pipeline/scripts/step2_generate_wiki.py ebansimsa
 """
 
 import sys
