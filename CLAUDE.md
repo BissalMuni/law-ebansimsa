@@ -3,6 +3,12 @@
 ## 프로젝트 개요
 Karpathy의 LLM Wiki 패턴을 적용하여 법제처 발간 법령 문서를 구조화된 지식 베이스로 구축하는 프로젝트.
 
+## Spec-Driven Development
+프론트엔드/백엔드 앱은 spec-kit 워크플로우를 따른다: constitution → spec → plan → tasks → implement.
+- 프로젝트 명세는 `.spec/` 참조 (`constitution.md`가 NON-NEGOTIABLE 원칙)
+- 설계 산출물: `design/ui-spec.md`(무엇을), `design/review-notes.md`(왜+스택), `design/data-model.md`(데이터)
+- 프론트 패키지 매니저 pnpm·테스트 vitest, 백엔드 uv·pytest
+
 ## 아키텍처
 - **Raw Sources**: `*.pdf` 파일 (불변, 수정 금지)
 - **Wiki**: `wiki/` 디렉토리 아래 마크다운 파일 (LLM이 생성·관리)
