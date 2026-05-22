@@ -131,7 +131,7 @@ model Message {
   stageId     String
   role        String   // user | ai | system
   content     String
-  citations   Json?    // AI 근거 위키 섹션 배열 (예: ["2.1.4","3.3.1"]) — P3 근거 우선
+  citations   Json?    // AI 근거 위키 섹션 배열 (예: ["2.1.4","3.3.1"]) — P1 근거 우선
   attachments Json?    // 첨부 컨텍스트 (위키 페이지·Reference id 배열)
   applied     Boolean  @default(false) // "Editor에 적용" 클릭 여부
   createdAt   DateTime @default(now())
@@ -202,7 +202,7 @@ D3에 따라 String으로 저장하되 아래 값만 허용. FastAPI 측 Pydanti
 |------|--------|
 | `Project.kind` | `enact`, `amend_partial`, `amend_full` |
 | `Project.status` | `active`, `locked` |
-| `Stage.key` | `meta`, `purpose`, `definition`, `scope`, `main`, `supplementary`, `review`, `finalize` |
+| `Stage.key` | `title`, `purpose`, `definition`, `scope`, `main`, `supplementary`, `review`, `finalize` (한글명·근거 §4.1) |
 | `Stage.status` | `locked`, `available`, `in_progress`, `validating`, `confirmed`, `stale`, `failed` |
 | `OrdinanceSection.changeType` | `unchanged`, `add`, `modify`, `delete` |
 | `Message.role` | `user`, `ai`, `system` |
@@ -212,6 +212,23 @@ D3에 따라 String으로 저장하되 아래 값만 허용. FastAPI 측 Pydanti
 | `Reference.source` | `file`, `opendata`, `paste` |
 | `Snapshot.trigger` | `confirm`, `ai_apply`, `manual_save` |
 | `Snapshot.actor` | `user`, `ai` |
+
+### 4.1 표준 8단계 키 ↔ 한글명 (단일 출처)
+
+`Stage.key`의 정식 영문 키와 한글 단계명 대응. 헌법 P2·spec은 이 표를 참조한다. 정비기준상 자치법규 구조는 **제명 → 총칙(목적·정의·적용범위) → 본칙 → 부칙** 순이며, 검토·완성은 작성 후 처리 단계다.
+
+| 순서 | `Stage.key` | 한글 단계명 | 정비기준 대응 |
+|------|-------------|------------|---------------|
+| 1 | `title` | 제명 | 제명(조례 제목) |
+| 2 | `purpose` | 목적 | 목적규정 (총칙) |
+| 3 | `definition` | 정의 | 정의규정 (총칙) |
+| 4 | `scope` | 적용범위 | 적용 범위규정 (총칙) |
+| 5 | `main` | 본칙 | 본칙규정(실체·보칙) |
+| 6 | `supplementary` | 부칙 | 부칙규정 |
+| 7 | `review` | 검토 | (작성 후 심사 단계) |
+| 8 | `finalize` | 완성 | (산출·내보내기 단계) |
+
+> 2~4단계(목적·정의·적용범위)는 정비기준상 "총칙규정"에 묶이는 내용물이다. 별도 "총칙" 단계는 두지 않는다.
 
 ---
 
