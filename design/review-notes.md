@@ -121,9 +121,39 @@ status: living document
 - 타 지자체 조례 검색 → 국가법령정보센터 OpenAPI (정부 공식)
 - 검증 파이프라인 → `pipeline/review/` (현존, 단계 확정 시 재사용)
 
+### 2.9 기술 스택 (세션 2, 2026-05-22 확정)
+
+§3.1의 미해결 항목을 모두 확정. 세 가지 핵심 결정(에디터·저장소·백엔드)은 사용자 선택, 나머지는 기본값 채택.
+
+| 항목 | 결정 | 근거 |
+|------|------|------|
+| 프레임워크 | **Next.js 15 (App Router)** | RSC + Server Actions, 프론트엔드 전담 |
+| 스타일 | **Tailwind 4 + shadcn/ui** | CLAUDE.md pnpm 정합 |
+| **에디터 엔진** | **Monaco** ← 사용자 선택 | VS Code 메타포 1:1 일치, `DiffEditor` 내장으로 Diff 뷰 직접 구현 불필요. 한국어 IME는 현재 대부분 해결 |
+| **데이터 저장소** | **SQLite + Prisma** ← 사용자 선택 | 단일 사용자 v1에 최적. `provider` 교체만으로 Postgres 마이그레이션 가능 |
+| **백엔드** | **별도 FastAPI 서비스** ← 사용자 선택 | 기존 Python `pipeline/` 100% 재사용. law-matcher(FastAPI+React) 통합 시 일관성 |
+| LLM 클라이언트 | **Python `anthropic` SDK** (FastAPI 측) + **SSE 스트리밍** → Next.js | 백엔드가 Python이므로 LLM 호출은 서버에서, Next.js는 스트림 프록시 |
+| 상태 관리 | **Zustand**(UI: 패널·탭·단계) + **TanStack Query**(FastAPI 서버 상태) | 단일 프로젝트라 가볍게 |
+| Diff | **Monaco DiffEditor**(시각 렌더링) + **jsdiff**(조 단위 정렬 로직) | 조 단위 파싱·로드는 Python `pipeline/search`에서 |
+| 패키지/테스트 | 프론트 **pnpm / vitest**, 백엔드 **uv / pytest** | CLAUDE.md 지시 + Python 관례 |
+
+**아키텍처 개요:**
+
+```
+Next.js 15 (UI, pnpm)              FastAPI (Python, uv)
+├ Monaco DiffEditor      ──SSE──▶  ├ pipeline/review  (Stage 7 검증, 현존)
+├ Zustand + TanStack Query         ├ pipeline/draft   (단계별 LLM 오케스트레이션, 신규)
+├ Prisma + SQLite                  ├ pipeline/search  (국가법령정보센터 OpenAPI, 신규)
+└ Tailwind 4 + shadcn/ui           └ pipeline/export  (HWP/DOCX/PDF 변환, 신규)
+```
+
+미해결로 남은 것: §3.2 데이터 모델 스키마 상세, §3.4 개정 모드 PoC, HWP 출력 라이브러리 조사.
+
 ---
 
 ## 3. 미해결 결정 사항
+
+> ✅ **§3.1 기술 스택은 세션 2(2026-05-22)에서 전부 확정됨 → §2.9 참조.** 아래는 이력 보존용으로 남겨둠.
 
 다음 세션에서 결정해야 할 항목들:
 
@@ -138,9 +168,11 @@ status: living document
 | 상태 관리 | Zustand 또는 Server State (TanStack Query) | 단일 프로젝트라 무겁지 않게 |
 | Diff 엔진 | `diff-match-patch` 또는 `jsdiff` | 조 단위 정렬 로직은 자체 구현 |
 
-### 3.2 데이터 모델
+### 3.2 데이터 모델 ✅ 확정 (세션 2 → [data-model.md](data-model.md))
 
-스키마 정의 필요:
+8엔티티로 확정: Project / Stage(본칙 sub-stage self-relation) / OrdinanceSection / Message / ValidationResult / Reference / Snapshot. **DiffHunk는 파생(jsdiff)으로 제외**, **위키는 DB 외부 마크다운 유지**. 상세는 [data-model.md](data-model.md). 아래 초안은 이력 보존용.
+
+원래 초안:
 
 - `Project { id, kind: enact|amend_partial|amend_full, title, municipality, createdAt, lockedAt }`
 - `Stage { project_id, name, status, confirmedAt, staleReason }`
