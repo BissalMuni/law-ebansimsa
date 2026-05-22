@@ -15,3 +15,20 @@ output/**/*_images/
 
 # Python
 __pycache__/
+.venv/
+*.egg-info/
+
+# Node / Next.js (web/)
+node_modules/
+.next/
+*.tsbuildinfo
+
+# Prisma / SQLite
+*.db
+*.db-journal
+
+# Docker Claude dangerous mode
+.env
+Dockerfile.claude
+docker-compose.claude.yml
+.claude-output/
