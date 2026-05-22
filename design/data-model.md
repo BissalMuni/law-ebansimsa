@@ -251,12 +251,12 @@ D3에 따라 String으로 저장하되 아래 값만 허용. FastAPI 측 Pydanti
 
 ---
 
-## 6. 미해결 (plan 단계로 이월)
+## 6. 미해결 → 세션 2에서 대부분 해소 (plan 참조)
 
-- **본문 저장 단위**: 조 단위(`OrdinanceSection`)로 충분한가, 항·호 레벨 메타가 필요한가 — 정비 기준 검증 입도에 따라 결정
-- **Snapshot 보존 정책**: 무한 누적 vs 단계당 N개 롤링
-- **Postgres 이전 시점**: law-matcher 통합 시 `provider` 교체 + JSON·인덱스 검증
-- **HWP 출력**: `pipeline/export`가 생성하는 산출물을 DB에 저장할지(파일 경로만 vs blob) — §3.4 PoC 후 결정
+- ✅ **본문 저장 단위**: 조(條) 단위(`OrdinanceSection`)로 확정. 항·호는 본문 텍스트 내 마크업 (spec clarify #1)
+- ✅ **Snapshot 보존 정책**: v1은 무제한 누적(단일 사용자·소량). 롤링은 후순위 (plan §7)
+- ✅ **출력물 저장**: DB에 저장하지 않고 온디맨드 재생성. blob 금지(D2와 동일 논리). HWP 후순위, v1 export는 DOCX/PDF (plan §7)
+- ⬜ **Postgres 이전 시점**: law-matcher 통합 시 `provider` 교체 + JSON·인덱스 검증 (계속 이월)
 
 ---
 
