@@ -3,7 +3,7 @@
 조례 입안 협업 IDE의 기능 명세. **무엇을(WHAT)·왜(WHY)**에 집중하고 구현 방법(HOW)은 [plan.md](plan.md)로 미룬다.
 
 > 토대: [design/ui-spec.md](../design/ui-spec.md) v0.3.0
-> 원칙: [constitution.md](constitution.md) (P1~P6 준수 필수)
+> 원칙: [constitution.md](constitution.md) (P1~P7 준수 필수)
 
 ---
 

@@ -178,6 +178,7 @@ law-ebansimsa/
 - **P4** 복제 금지 → `/draft/generate` 시스템 프롬프트 주입 ✓
 - **P5** WCAG AA → Phase 4 점검 ✓
 - **P6** 무시 사유 강제 → ValidationDialog + `dismissedReason` ✓
+- **P7** 진실원 단일·파생물 비영속 → 위키는 파일(§1), DiffHunk·출력물 비영속(§7) ✓
 
 ---
 
