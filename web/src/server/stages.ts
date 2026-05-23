@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { buildSeedStages, type StageStatus } from "@/lib/stages";
+import { buildSubStages } from "@/lib/substages";
 import {
   applyConfirm,
   applyEditConfirmed,
@@ -101,4 +102,29 @@ export async function reopenStage(projectId: string, stageId: string) {
   const before = await loadLockStages(projectId);
   const after = applyEditConfirmed(before, stageId);
   await persistStageChanges(projectId, before, after);
+}
+
+// 본칙 동적 sub-stage 구성 — 선택 항목을 main 단계의 자식으로 생성 (US5)
+// 재구성 시 기존 sub-stage 는 교체한다.
+export async function setMainSubStages(
+  projectId: string,
+  mainStageId: string,
+  selectedIds: string[],
+) {
+  const subs = buildSubStages(selectedIds, mainStageId);
+  await prisma.$transaction([
+    prisma.stage.deleteMany({ where: { projectId, parentId: mainStageId } }),
+    prisma.stage.createMany({
+      data: subs.map((s) => ({ ...s, projectId })),
+    }),
+  ]);
+  revalidatePath(`/draft/${projectId}`);
+}
+
+// main 단계의 sub-stage 목록
+export async function listSubStages(mainStageId: string) {
+  return prisma.stage.findMany({
+    where: { parentId: mainStageId },
+    orderBy: { order: "asc" },
+  });
 }

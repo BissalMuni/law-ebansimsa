@@ -1,15 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import type { OnMount } from "@monaco-editor/react";
 import { X, Columns2, FileText } from "lucide-react";
 
 import { useUIStore } from "@/lib/store/ui-store";
 import { useEditorStore } from "@/lib/store/editor-store";
 import { saveSection } from "@/server/sections";
 import { debounce } from "@/lib/debounce";
+import { streamDraft } from "@/lib/api-client";
+import { applyDraftEvent, initialDraftState } from "@/lib/chat";
+import { buildRewriteIntent, type RewriteKind } from "@/lib/rewrite";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { FloatingToolbar } from "@/components/FloatingToolbar";
+
+type MonacoEditorInstance = Parameters<OnMount>[0];
+interface SelectionState {
+  top: number;
+  left: number;
+  text: string;
+}
 
 // Monaco 는 브라우저 전용 — SSR 비활성 동적 로드
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -76,27 +88,92 @@ function Pane({ docId }: { docId: string }) {
 
   useEffect(() => () => autosave.cancel(), [autosave]);
 
+  // --- 부유 툴바: 선택 영역 감지 + AI 재작성 (T025) ---
+  const editorRef = useRef<MonacoEditorInstance | null>(null);
+  const [selection, setSelection] = useState<SelectionState | null>(null);
+  const [rewriting, setRewriting] = useState(false);
+
+  const onMount: OnMount = (editor) => {
+    editorRef.current = editor;
+    // 200ms 디바운스 — 선택이 멈춘 뒤 툴바 표시 (ui-spec)
+    const handle = debounce(() => {
+      const sel = editor.getSelection();
+      const model = editor.getModel();
+      if (!sel || sel.isEmpty() || !model) {
+        setSelection(null);
+        return;
+      }
+      const text = model.getValueInRange(sel);
+      const pos = editor.getScrolledVisiblePosition({
+        lineNumber: sel.startLineNumber,
+        column: sel.startColumn,
+      });
+      if (!pos) return;
+      setSelection({ top: pos.top, left: pos.left, text });
+    }, 200);
+    editor.onDidChangeCursorSelection(() => handle());
+    editor.onDidScrollChange(() => setSelection(null));
+  };
+
+  async function rewrite(kind: RewriteKind) {
+    const editor = editorRef.current;
+    if (!editor || !selection) return;
+    const sel = editor.getSelection();
+    if (!sel) return;
+    setRewriting(true);
+    let draft = initialDraftState();
+    try {
+      // AI 재작성 — 의도에 선택 텍스트 포함. 근거·복제 금지는 api 가 강제 (P1/P4)
+      for await (const ev of streamDraft({
+        stage_key: doc!.meta?.stageId ? "main" : "definition",
+        intent: buildRewriteIntent(kind, selection.text),
+      })) {
+        draft = applyDraftEvent(draft, ev);
+      }
+      // 선택 영역을 결과로 교체
+      editor.executeEdits("rewrite", [{ range: sel, text: draft.content }]);
+      setValue(doc!.id, editor.getValue());
+      autosave(editor.getValue());
+    } catch {
+      // 재작성 실패는 조용히 무시
+    } finally {
+      setRewriting(false);
+      setSelection(null);
+    }
+  }
+
   if (!doc) return null;
   return (
-    <MonacoEditor
-      theme={theme}
-      language={doc.language}
-      value={doc.value}
-      onChange={(v) => {
-        const text = v ?? "";
-        setValue(doc.id, text);
-        autosave(text);
-      }}
-      options={{
-        readOnly: doc.readOnly,
-        minimap: { enabled: false },
-        wordWrap: "on",
-        fontSize: 14,
-        lineNumbers: "on",
-        scrollBeyondLastLine: false,
-        renderWhitespace: "none",
-      }}
-    />
+    <div className="relative h-full">
+      <MonacoEditor
+        theme={theme}
+        language={doc.language}
+        value={doc.value}
+        onMount={onMount}
+        onChange={(v) => {
+          const text = v ?? "";
+          setValue(doc.id, text);
+          autosave(text);
+        }}
+        options={{
+          readOnly: doc.readOnly,
+          minimap: { enabled: false },
+          wordWrap: "on",
+          fontSize: 14,
+          lineNumbers: "on",
+          scrollBeyondLastLine: false,
+          renderWhitespace: "none",
+        }}
+      />
+      {selection && !doc.readOnly && (
+        <FloatingToolbar
+          top={selection.top}
+          left={selection.left}
+          busy={rewriting}
+          onAction={(kind) => void rewrite(kind)}
+        />
+      )}
+    </div>
   );
 }
 

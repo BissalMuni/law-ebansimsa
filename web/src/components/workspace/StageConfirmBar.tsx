@@ -18,6 +18,8 @@ import { confirmStage, reopenStage } from "@/server/stages";
 import { Button } from "@/components/ui/button";
 import type { StageItemData } from "@/components/StageItem";
 import { ValidationDialog } from "@/components/ValidationDialog";
+import { MainStageModal } from "@/components/MainStageModal";
+import { ListPlus } from "lucide-react";
 
 export function StageConfirmBar({
   projectId,
@@ -33,6 +35,7 @@ export function StageConfirmBar({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<ValidationCellResult[] | null>(null);
+  const [subModalOpen, setSubModalOpen] = useState(false);
 
   if (!current) return null;
 
@@ -124,6 +127,18 @@ export function StageConfirmBar({
       </span>
       <div className="ml-auto flex items-center gap-2">
         {error && <span className="text-xs text-destructive">{error}</span>}
+        {/* 본칙 단계 — 동적 sub-stage 구성 (US5) */}
+        {current.key === "main" && (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => setSubModalOpen(true)}
+          >
+            <ListPlus className="size-3.5" aria-hidden />
+            본칙 항목 구성
+          </Button>
+        )}
         {confirmed ? (
           <Button
             type="button"
@@ -154,6 +169,15 @@ export function StageConfirmBar({
           results={results}
           onCancel={() => setResults(null)}
           onConfirm={(resolutions) => void finalizeConfirm(results, resolutions)}
+        />
+      )}
+
+      {current.key === "main" && (
+        <MainStageModal
+          open={subModalOpen}
+          onOpenChange={setSubModalOpen}
+          projectId={projectId}
+          mainStageId={current.id}
         />
       )}
     </div>

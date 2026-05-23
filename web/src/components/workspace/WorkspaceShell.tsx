@@ -7,6 +7,7 @@ import { useUIStore } from "@/lib/store/ui-store";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ActivityBar, type ActivityView } from "./ActivityBar";
+import { CommandPalette } from "@/components/CommandPalette";
 
 export interface WorkspaceProject {
   id: string;
@@ -66,6 +67,7 @@ export function WorkspaceShell({
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
+      <CommandPalette />
       <div className="flex min-h-0 flex-1">
         <ActivityBar active={activeView} onSelect={setActiveView} />
 

@@ -36,9 +36,9 @@
 
 ## Phase 3 — Features
 
-- [ ] [T023] 본칙 동적 sub-stage 모달 + sub-stage 생성 (US5) (`web/src/components/MainStageModal.tsx`)
-- [ ] [T024] [P] Command Palette (⌘P/⌘⇧P) (US10) (`web/src/components/CommandPalette.tsx`)
-- [ ] [T025] [P] 부유 액션 툴바(텍스트 선택 시) (`web/src/components/FloatingToolbar.tsx`)
+- [x] [T023] 본칙 동적 sub-stage 모달 + sub-stage 생성 (US5) (`web/src/components/MainStageModal.tsx`)
+- [x] [T024] [P] Command Palette (⌘P/⌘⇧P) (US10) (`web/src/components/CommandPalette.tsx`)
+- [x] [T025] [P] 부유 액션 툴바(텍스트 선택 시) (`web/src/components/FloatingToolbar.tsx`)
 - [x] [T026] `api` `/parse/ordinance` — 조 단위 파싱 (`api/routers/parse.py`, `pipeline/search/`)
 - [ ] [T027] 개정 모드 기존 조례 로드 모달(업로드/검색/붙여넣기) (US6) (`web/src/components/LoadOrdinanceModal.tsx`)
 - [ ] [T028] Monaco DiffEditor + 조 단위 정렬(jsdiff) + 변경 카운트 (`web/src/components/DiffView.tsx`)
