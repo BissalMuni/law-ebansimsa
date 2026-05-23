@@ -1,0 +1,31 @@
+[project]
+name = "api"
+version = "0.1.0"
+description = "Law-Ebansimsa stateless compute backend (FastAPI)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "anthropic>=0.40",
+    "pydantic>=2.9",
+    "httpx>=0.27",
+    "python-docx>=1.1",
+    "reportlab>=4.2",
+    "sse-starlette>=2.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+]
+
+[tool.pytest.ini_options]
+# 레포 루트를 import 경로에 추가해 기존 pipeline/ 패키지를 재사용한다 (plan §1)
+pythonpath = [".", ".."]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.uv]
+package = false
