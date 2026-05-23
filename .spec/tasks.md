@@ -52,11 +52,11 @@
 ## Phase 4 — Polish
 
 - [x] [T035] `api` `/export` DOCX/PDF — pipeline/export, 온디맨드(blob 없음) (US9) (`api/routers/export.py`, `pipeline/export/`)
-- [ ] [T036] 최종안 출력(Stage 8) + 다운로드 (`web/src/components/ExportPanel.tsx`)
-- [ ] [T037] [P] 접근성 WCAG AA 점검 — 3중 인코딩·키보드·aria (P5) (`web/`)
-- [ ] [T038] [P] 다크모드 + 빈 상태·에러 카피 (`web/`)
-- [ ] [T039] [P] 반응형 1366×768 (`web/`)
-- [ ] [T040] 통합 테스트(vitest/pytest) + spec SC-001~006 검증 (`web/`, `api/`)
+- [x] [T036] 최종안 출력(Stage 8) + 다운로드 (`web/src/components/ExportPanel.tsx`)
+- [x] [T037] [P] 접근성 WCAG AA 점검 — 3중 인코딩·키보드·aria (P5) (`web/`)
+- [x] [T038] [P] 다크모드 + 빈 상태·에러 카피 (`web/`)
+- [x] [T039] [P] 반응형 1366×768 (`web/`)
+- [x] [T040] 통합 테스트(vitest/pytest) + spec SC-001~006 검증 (`web/`, `api/`)
 
 ---
 

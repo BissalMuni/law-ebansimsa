@@ -12,20 +12,18 @@ import {
 } from "lucide-react";
 
 import type { StageStatus } from "@/lib/stages";
+import { STATUS_ENCODING } from "@/lib/encoding";
 import { cn } from "@/lib/utils";
 
-// 상태 3중 인코딩: 아이콘(기호) + 색 + 텍스트(aria-label·표시) (P5, P7, ui-spec §10.1)
-const STATUS_META: Record<
-  StageStatus,
-  { Icon: LucideIcon; text: string; color: string }
-> = {
-  confirmed: { Icon: CheckCircle2, text: "확정 완료", color: "text-green-600 dark:text-green-400" },
-  in_progress: { Icon: CircleDot, text: "작성 중", color: "text-primary" },
-  validating: { Icon: Loader2, text: "검증 중", color: "text-amber-600 dark:text-amber-400" },
-  available: { Icon: Circle, text: "진입 가능", color: "text-muted-foreground" },
-  locked: { Icon: Lock, text: "잠김", color: "text-muted-foreground" },
-  stale: { Icon: AlertCircle, text: "재검토 필요", color: "text-amber-600 dark:text-amber-400" },
-  failed: { Icon: XCircle, text: "검증 실패", color: "text-destructive" },
+// 상태 3중 인코딩: 아이콘(기호) + 색 + 텍스트 (P5, P7). 텍스트는 STATUS_ENCODING 단일 출처.
+const STATUS_META: Record<StageStatus, { Icon: LucideIcon; color: string }> = {
+  confirmed: { Icon: CheckCircle2, color: "text-green-600 dark:text-green-400" },
+  in_progress: { Icon: CircleDot, color: "text-primary" },
+  validating: { Icon: Loader2, color: "text-amber-600 dark:text-amber-400" },
+  available: { Icon: Circle, color: "text-muted-foreground" },
+  locked: { Icon: Lock, color: "text-muted-foreground" },
+  stale: { Icon: AlertCircle, color: "text-amber-600 dark:text-amber-400" },
+  failed: { Icon: XCircle, color: "text-destructive" },
 };
 
 export interface StageItemData {
@@ -46,6 +44,7 @@ export function StageItem({
   onSelect: (id: string) => void;
 }) {
   const meta = STATUS_META[stage.status];
+  const statusText = STATUS_ENCODING[stage.status].text;
   const locked = stage.status === "locked";
   const { Icon } = meta;
 
@@ -55,7 +54,7 @@ export function StageItem({
       role="link"
       aria-current={isCurrent ? "step" : undefined}
       aria-disabled={locked}
-      aria-label={`${stage.order}. ${stage.label} — ${meta.text}`}
+      aria-label={`${stage.order}. ${stage.label} — ${statusText}`}
       disabled={locked}
       onClick={() => !locked && onSelect(stage.id)}
       className={cn(
@@ -79,7 +78,7 @@ export function StageItem({
       </span>
       {/* 텍스트 인코딩(스크린리더 외 시각적으로도) */}
       <span className="ml-auto text-[10px] text-muted-foreground">
-        {meta.text}
+        {statusText}
       </span>
     </button>
   );

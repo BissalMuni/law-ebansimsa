@@ -6,18 +6,16 @@ import { listSections } from "@/server/sections";
 import { validateFull, type ValidationCellResult } from "@/lib/api-client";
 import { DEFAULT_CRITERIA, isMatrixComplete } from "@/lib/validation";
 import { buildMatrixIndex, verdictAt } from "@/lib/matrix";
+import { VERDICT_ENCODING } from "@/lib/encoding";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-// verdict 3중 인코딩(기호·색·텍스트) — P5/P7
-const VERDICT_META: Record<
-  ValidationCellResult["verdict"],
-  { symbol: string; text: string; cls: string }
-> = {
-  pass: { symbol: "✓", text: "충족", cls: "text-green-600 dark:text-green-400" },
-  fail: { symbol: "✗", text: "위반", cls: "text-destructive" },
-  na: { symbol: "—", text: "해당없음", cls: "text-muted-foreground" },
-  pending: { symbol: "?", text: "미판정", cls: "text-amber-600 dark:text-amber-400" },
+// verdict 색상 — 기호·텍스트는 VERDICT_ENCODING(테스트된 P5 단일 출처)에서 가져온다
+const VERDICT_COLOR: Record<ValidationCellResult["verdict"], string> = {
+  pass: "text-green-600 dark:text-green-400",
+  fail: "text-destructive",
+  na: "text-muted-foreground",
+  pending: "text-amber-600 dark:text-amber-400",
 };
 
 // 검토 매트릭스 탭 (Stage 7, ui-spec §6.3.1) — 전체 조문×기준 검증 매트릭스
@@ -104,15 +102,18 @@ export function ReviewMatrix({ projectId }: { projectId: string }) {
                   </td>
                   {DEFAULT_CRITERIA.map((c) => {
                     const v = verdictAt(idx, a.id, c.criterion_id);
-                    const m = VERDICT_META[v];
+                    const enc = VERDICT_ENCODING[v];
                     return (
                       <td
                         key={c.criterion_id}
-                        className={cn("border border-border px-2 py-1 text-center", m.cls)}
-                        title={m.text}
+                        className={cn(
+                          "border border-border px-2 py-1 text-center",
+                          VERDICT_COLOR[v],
+                        )}
+                        title={enc.text}
                       >
-                        <span aria-hidden>{m.symbol}</span>
-                        <span className="sr-only">{m.text}</span>
+                        <span aria-hidden>{enc.symbol}</span>
+                        <span className="sr-only">{enc.text}</span>
                       </td>
                     );
                   })}

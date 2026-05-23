@@ -55,7 +55,7 @@ export default function NewProjectPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
+    <main id="main" className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="text-2xl font-semibold text-foreground">새 입안 프로젝트</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         작업 종류를 선택하고 조례 정보를 입력하세요.

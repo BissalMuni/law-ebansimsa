@@ -24,11 +24,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   // 한국어 단일 (constitution §IV). 다크 모드는 .dark 클래스로 토글 (T038)
+  // FOUC 방지 — 페인트 전에 저장된 테마(또는 OS 선호)를 적용
+  const themeInit = `(function(){try{var t=localStorage.getItem('law-ebansimsa-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
   return (
     <html lang="ko">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* 키보드 사용자용 본문 바로가기 (P5, WCAG 2.4.1) */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+        >
+          본문으로 건너뛰기
+        </a>
         <Providers>{children}</Providers>
       </body>
     </html>

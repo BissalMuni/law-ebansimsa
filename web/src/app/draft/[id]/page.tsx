@@ -73,6 +73,8 @@ export default async function DraftPage({
       bottomPanel={
         <BottomPanel
           projectId={project.id}
+          projectTitle={project.title}
+          municipality={project.municipality}
           amendSections={
             isAmend
               ? sections.map((s) => ({

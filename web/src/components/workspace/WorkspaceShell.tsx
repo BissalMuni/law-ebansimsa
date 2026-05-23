@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ActivityBar, type ActivityView } from "./ActivityBar";
 import { CommandPalette } from "@/components/CommandPalette";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export interface WorkspaceProject {
   id: string;
@@ -75,7 +76,7 @@ export function WorkspaceShell({
         {primarySidebarOpen && (
           <aside
             aria-label="입안 단계"
-            className="flex w-60 shrink-0 flex-col border-r border-border bg-card"
+            className="flex w-52 shrink-0 flex-col border-r border-border bg-card xl:w-60"
           >
             {stageSidebar ?? (
               <div className="p-3 text-sm text-muted-foreground">
@@ -86,7 +87,7 @@ export function WorkspaceShell({
         )}
 
         {/* Editor Group (중앙, 가변) + Bottom Panel */}
-        <main className="flex min-w-0 flex-1 flex-col">
+        <main id="main" className="flex min-w-0 flex-1 flex-col">
           <div className="flex min-h-0 flex-1 flex-col">
             {editor ?? (
               <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
@@ -112,7 +113,7 @@ export function WorkspaceShell({
         {secondarySidebarOpen && (
           <aside
             aria-label="AI 채팅"
-            className="flex w-[380px] shrink-0 flex-col border-l border-border bg-card"
+            className="flex w-80 shrink-0 flex-col border-l border-border bg-card xl:w-[380px]"
           >
             {chat ?? (
               <div className="p-3 text-sm text-muted-foreground">AI 채팅</div>
@@ -132,6 +133,7 @@ export function WorkspaceShell({
         <span>진행 {project.progress}%</span>
 
         <div className="ml-auto flex items-center gap-1">
+          <ThemeToggle className="size-5 text-primary-foreground hover:bg-primary-foreground/20" />
           <Button
             type="button"
             variant="ghost"
