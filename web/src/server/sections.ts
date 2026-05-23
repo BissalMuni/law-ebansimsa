@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // 조문·메시지·스냅샷 영속 — Server Actions (DB 는 web 단독 소유, plan §1)
@@ -24,6 +25,15 @@ export async function saveSection(input: SaveSectionInput) {
     return prisma.ordinanceSection.update({ where: { id }, data });
   }
   return prisma.ordinanceSection.create({ data });
+}
+
+// 개정 모드 — 로드된 원본 조문들을 일괄 생성 (US6)
+export async function createSections(inputs: SaveSectionInput[]) {
+  if (inputs.length === 0) return;
+  await prisma.ordinanceSection.createMany({
+    data: inputs.map(({ id: _id, ...data }) => data),
+  });
+  if (inputs[0]) revalidatePath(`/draft/${inputs[0].projectId}`);
 }
 
 // 채팅 메시지 저장 — AI 메시지는 citations(근거) 필수 추적 (헌법 P1)

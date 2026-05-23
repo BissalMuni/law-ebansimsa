@@ -24,9 +24,11 @@ import { ListPlus } from "lucide-react";
 export function StageConfirmBar({
   projectId,
   stages,
+  extra,
 }: {
   projectId: string;
   stages: StageItemData[];
+  extra?: React.ReactNode;
 }) {
   const router = useRouter();
   const activeStageId = useUIStore((s) => s.activeStageId);
@@ -125,6 +127,7 @@ export function StageConfirmBar({
       <span className="text-sm font-medium">
         {current.order}. {current.label}
       </span>
+      {extra}
       <div className="ml-auto flex items-center gap-2">
         {error && <span className="text-xs text-destructive">{error}</span>}
         {/* 본칙 단계 — 동적 sub-stage 구성 (US5) */}

@@ -2,11 +2,14 @@ import { notFound } from "next/navigation";
 
 import { getProject } from "@/server/projects";
 import { listStages } from "@/server/stages";
+import { listSections } from "@/server/sections";
+import { DiffView } from "@/components/DiffView";
 import { WorkspaceShell } from "@/components/workspace/WorkspaceShell";
 import { StageSidebar } from "@/components/workspace/StageSidebar";
 import { EditorArea } from "@/components/Editor";
 import { ChatPanel } from "@/components/ChatPanel";
 import { StageConfirmBar } from "@/components/workspace/StageConfirmBar";
+import { AmendLoadButton } from "@/components/workspace/AmendLoadButton";
 import type { StageStatus } from "@/lib/stages";
 
 // 워크스페이스 — DB 를 읽으므로 요청 시 렌더
@@ -31,6 +34,14 @@ export default async function DraftPage({
     status: s.status as StageStatus,
   }));
 
+  // 개정 모드는 기존 조례를 본칙(또는 첫) 단계에 로드 (US6)
+  const isAmend = project.kind !== "enact";
+  const loadTargetStageId =
+    stageData.find((s) => s.key === "main")?.id ?? stageData[0]?.id ?? "";
+
+  // 개정 모드: 변경사항 diff 를 하단 패널에 (FR-010)
+  const sections = isAmend ? await listSections(id) : [];
+
   return (
     <WorkspaceShell
       project={{
@@ -43,11 +54,34 @@ export default async function DraftPage({
       stageSidebar={<StageSidebar stages={stageData} />}
       editor={
         <>
-          <StageConfirmBar projectId={project.id} stages={stageData} />
+          <StageConfirmBar
+            projectId={project.id}
+            stages={stageData}
+            extra={
+              isAmend && loadTargetStageId ? (
+                <AmendLoadButton
+                  projectId={project.id}
+                  targetStageId={loadTargetStageId}
+                />
+              ) : null
+            }
+          />
           <EditorArea />
         </>
       }
       chat={<ChatPanel projectId={project.id} />}
+      bottomPanel={
+        isAmend ? (
+          <DiffView
+            sections={sections.map((s) => ({
+              articleNo: s.articleNo,
+              articleLabel: s.articleLabel,
+              originalBody: s.originalBody,
+              body: s.body,
+            }))}
+          />
+        ) : undefined
+      }
     />
   );
 }
