@@ -1,26 +1,110 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+/* 다크 모드는 .dark 클래스로 토글 (shadcn 표준, T038 토글 연동) */
+@custom-variant dark (&:is(.dark *));
+
+/* 디자인 토큰 — 정부·공공 톤. 정부 네이비 #1B3D7A 를 primary 로 (constitution §IV) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.5rem;
+
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222 32% 12%);
+
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222 32% 12%);
+
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222 32% 12%);
+
+  /* 정부 네이비 #1B3D7A */
+  --primary: hsl(218 64% 29%);
+  --primary-foreground: hsl(0 0% 100%);
+
+  --secondary: hsl(218 28% 94%);
+  --secondary-foreground: hsl(218 64% 22%);
+
+  --muted: hsl(218 24% 95%);
+  --muted-foreground: hsl(218 12% 42%);
+
+  --accent: hsl(218 32% 92%);
+  --accent-foreground: hsl(218 64% 22%);
+
+  --destructive: hsl(0 72% 42%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --border: hsl(218 18% 86%);
+  --input: hsl(218 18% 86%);
+  --ring: hsl(218 64% 40%);
 }
 
+.dark {
+  --background: hsl(222 36% 8%);
+  --foreground: hsl(210 24% 92%);
+
+  --card: hsl(222 32% 11%);
+  --card-foreground: hsl(210 24% 92%);
+
+  --popover: hsl(222 32% 11%);
+  --popover-foreground: hsl(210 24% 92%);
+
+  /* 다크에서 네이비를 밝게 보정해 대비 4.5:1 확보 (P5) */
+  --primary: hsl(214 70% 64%);
+  --primary-foreground: hsl(222 40% 10%);
+
+  --secondary: hsl(218 24% 18%);
+  --secondary-foreground: hsl(210 24% 92%);
+
+  --muted: hsl(218 22% 16%);
+  --muted-foreground: hsl(216 14% 66%);
+
+  --accent: hsl(218 24% 20%);
+  --accent-foreground: hsl(210 24% 92%);
+
+  --destructive: hsl(0 64% 56%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --border: hsl(218 20% 22%);
+  --input: hsl(218 20% 24%);
+  --ring: hsl(214 70% 60%);
+}
+
+/* Tailwind 4 토큰 매핑 — 유틸 클래스(bg-primary 등)로 노출 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }

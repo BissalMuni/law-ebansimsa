@@ -8,16 +8,16 @@
 
 ## Phase 1 — Setup
 
-- [ ] [T001] 모노레포 `.gitignore` 정비 — `node_modules/`, `__pycache__/`, `.venv/`, `*.db` (`.gitignore`)
-- [ ] [T002] `web/` Next.js 15 초기화 — TypeScript·Tailwind 4·App Router·src-dir, pnpm (`web/`)
-- [ ] [T003] [P] `web/` shadcn/ui 초기화 + 기본 컴포넌트 (`web/src/components/ui/`)
-- [ ] [T004] [P] `web/` 디자인 토큰 적용 — 정부 네이비, 라이트/다크 (`web/src/app/globals.css`)
-- [ ] [T005] `web/` Prisma 설정 + `schema.prisma` (data-model §3 그대로) (`web/prisma/schema.prisma`)
-- [ ] [T006] `web/` 첫 마이그레이션 + Prisma Client 생성 (`web/prisma/migrations/`)
-- [ ] [T007] [P] `web/` Zustand + TanStack Query 프로바이더 (`web/src/lib/store/`, `web/src/app/providers.tsx`)
+- [x] [T001] 모노레포 `.gitignore` 정비 — `node_modules/`, `__pycache__/`, `.venv/`, `*.db` (`.gitignore`)
+- [x] [T002] `web/` Next.js 15 초기화 — TypeScript·Tailwind 4·App Router·src-dir, pnpm (`web/`)
+- [x] [T003] [P] `web/` shadcn/ui 초기화 + 기본 컴포넌트 (`web/src/components/ui/`)
+- [x] [T004] [P] `web/` 디자인 토큰 적용 — 정부 네이비, 라이트/다크 (`web/src/app/globals.css`)
+- [x] [T005] `web/` Prisma 설정 + `schema.prisma` (data-model §3 그대로) (`web/prisma/schema.prisma`)
+- [x] [T006] `web/` 첫 마이그레이션 + Prisma Client 생성 (`web/prisma/migrations/`)
+- [x] [T007] [P] `web/` Zustand + TanStack Query 프로바이더 (`web/src/lib/store/`, `web/src/app/providers.tsx`)
 - [x] [T008] `api/` FastAPI + uv 초기화 (`api/pyproject.toml`, `api/main.py`)
 - [x] [T009] [P] `api/` Pydantic 스키마 — Literal = data-model §4 허용값 (`api/schemas.py`)
-- [ ] [T010] `api/` `/health` + `web/` api-client(HTTP/SSE) 연결 (`api/main.py`, `web/src/lib/api-client.ts`)
+- [x] [T010] `api/` `/health` + `web/` api-client(HTTP/SSE) 연결 (`api/main.py`, `web/src/lib/api-client.ts`)
 
 ## Phase 2 — Core (제정 흐름 MVP)
 

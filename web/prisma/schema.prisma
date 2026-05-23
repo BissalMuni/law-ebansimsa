@@ -1,0 +1,144 @@
+// 패키지 매니저 pnpm. SQLite native enum 미지원 → String + 주석으로 허용값 고정 (D3)
+// provider만 postgresql로 교체하면 클라우드 이전 가능 (review-notes §2.9)
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 입안 프로젝트 — 한 번에 하나 (단일 프로젝트 중심 UI)
+model Project {
+  id           String    @id @default(cuid())
+  kind         String    // enact | amend_partial | amend_full
+  title        String    // 제명 (예: 청년 창업 지원 조례)
+  municipality String    // 지자체명
+  status       String    @default("active") // active | locked
+  progress     Int       @default(0)         // 0-100, 파생 캐시
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lockedAt     DateTime?
+
+  stages     Stage[]
+  sections   OrdinanceSection[]
+  references Reference[]
+
+  @@index([status])
+}
+
+// 표준 8단계 + 본칙 동적 sub-stage (self-relation)
+model Stage {
+  id          String    @id @default(cuid())
+  projectId   String
+  key         String    // meta|purpose|definition|scope|main|supplementary|review|finalize
+  label       String    // 표시명 (예: 정의 규정)
+  order       Int       // 정렬 순서
+  required    Boolean   @default(true)
+  status      String    @default("locked")
+  // locked|available|in_progress|validating|confirmed|stale|failed
+  staleReason String?   // 이전 단계 수정으로 영향받았을 때 사유 (§5.3)
+  wikiRef     String?   // 근거 위키 섹션 (예: 2.1.4)
+  confirmedAt DateTime?
+
+  // 본칙(main) 동적 sub-stage: 위원회·보조·출연 등 (§4.1)
+  parentId  String?
+  parent    Stage?  @relation("StageSubstages", fields: [parentId], references: [id])
+  substages Stage[] @relation("StageSubstages")
+
+  project   Project            @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sections  OrdinanceSection[]
+  messages  Message[]
+  snapshots Snapshot[]
+
+  @@unique([projectId, key, parentId])
+  @@index([projectId, order])
+}
+
+// 조(條) 단위 본문. 개정 모드는 originalBody 보유
+model OrdinanceSection {
+  id           String  @id @default(cuid())
+  projectId    String
+  stageId      String  // 이 조를 생성·소유한 단계 (에디터 거터 배지)
+  articleNo    Int     // 조 번호 (제N조)
+  articleLabel String? // 표기형 (예: "제2조(정의)")
+  title        String  // 조 제목 (정의·목적 등)
+  body         String  // 현재 본문 (개정안 버퍼)
+  originalBody String? // 개정 모드: 로드된 원본 (읽기 전용)
+  changeType   String? // 개정 파생 캐시: unchanged|add|modify|delete (D2)
+  order        Int     // 조 정렬
+
+  project     Project            @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  stage       Stage              @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  validations ValidationResult[]
+
+  @@index([projectId, order])
+}
+
+// 단계별 채팅 로그 (담당자 ↔ AI)
+model Message {
+  id          String   @id @default(cuid())
+  stageId     String
+  role        String   // user | ai | system
+  content     String
+  citations   Json?    // AI 근거 위키 섹션 배열 (예: ["2.1.4","3.3.1"]) — P1 근거 우선
+  attachments Json?    // 첨부 컨텍스트 (위키 페이지·Reference id 배열)
+  applied     Boolean  @default(false) // "Editor에 적용" 클릭 여부
+  createdAt   DateTime @default(now())
+
+  stage Stage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+
+  @@index([stageId, createdAt])
+}
+
+// 검증 결과 — 인라인 힌트(Haiku) + 정밀 검증(Sonnet 매트릭스) 통합 (§8.2)
+model ValidationResult {
+  id              String   @id @default(cuid())
+  sectionId       String
+  criterionId     String   // 위키 기준 식별자 (예: 3.3.1) — DB에 위키 없음(D1)
+  source          String   // ebansimsa | jungbigijun (어느 기준서)
+  verdict         String   // pass | fail | na | pending
+  severity        String?  // hint | violation (인라인 vs 정밀)
+  reason          String?
+  suggestion      String?  // AI 자동 수정 제안
+  dismissedReason String?  // "이유 있는 예외"로 무시 시 사유 (필수 기록, §5.2)
+  createdAt       DateTime @default(now())
+
+  section OrdinanceSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId, verdict])
+}
+
+// 타 지자체 참고 조례 (§8.1)
+model Reference {
+  id                String   @id @default(cuid())
+  projectId         String
+  source            String   // file | opendata | paste
+  title             String   // 조례 제목
+  municipality      String?
+  content           String   // 조례 전문
+  sourceUrl         String?  // opendata 출처 URL
+  includedInContext Boolean  @default(false) // AI 컨텍스트 포함 토글
+  createdAt         DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+// 시간여행용 본문 스냅샷 — 채팅 로그와 별개 (D5, §7.6)
+model Snapshot {
+  id        String   @id @default(cuid())
+  stageId   String
+  trigger   String   // confirm | ai_apply | manual_save
+  actor     String   // user | ai
+  label     String?  // 표시용 (예: "확정 → 검증 통과")
+  content   Json     // 그 시점 조 단위 본문 스냅샷
+  createdAt DateTime @default(now())
+
+  stage Stage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+
+  @@index([stageId, createdAt])
+}
