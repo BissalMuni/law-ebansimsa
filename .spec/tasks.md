@@ -29,10 +29,10 @@
 - [x] [T016] `api` `/draft/generate` SSE — pipeline/draft, 위키 근거 주입, 복제 금지(P4) (`api/routers/draft.py`, `pipeline/draft/`)
 - [x] [T017] Monaco 에디터 통합 + 조문 표시 + 멀티탭·split 뷰 (FR-014) (`web/src/components/Editor.tsx`)
 - [x] [T018] AI 채팅 패널(Secondary Sidebar) + 근거 토글 (P1) (`web/src/components/ChatPanel.tsx`)
-- [ ] [T019] 조문 저장 — OrdinanceSection + Message(citations) + Snapshot + 500ms idle 자동저장 (ui-spec §7.6) (`web/src/server/sections.ts`)
+- [x] [T019] 조문 저장 — OrdinanceSection + Message(citations) + Snapshot + 500ms idle 자동저장 (ui-spec §7.6) (`web/src/server/sections.ts`)
 - [x] [T020] `api` `/validate/precise` — pipeline/review detailed, 1조문×1기준 강제 (P3) (`api/routers/validate.py`)
-- [ ] [T021] ValidationDialog + 무시 사유 강제 (P6) (`web/src/components/ValidationDialog.tsx`)
-- [ ] [T022] 단계 확정 흐름 — 검증 통과 시 다음 단계 unlock (`web/src/server/stages.ts`)
+- [x] [T021] ValidationDialog + 무시 사유 강제 (P6) (`web/src/components/ValidationDialog.tsx`)
+- [x] [T022] 단계 확정 흐름 — 검증 통과 시 다음 단계 unlock (`web/src/server/stages.ts`)
 
 ## Phase 3 — Features
 

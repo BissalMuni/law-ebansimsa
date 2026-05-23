@@ -5,6 +5,7 @@ import { Bot, User, BookMarked, FileDown, Send } from "lucide-react";
 
 import { useUIStore } from "@/lib/store/ui-store";
 import { useEditorStore } from "@/lib/store/editor-store";
+import { saveMessage, saveSection, createSnapshot } from "@/server/sections";
 import { streamDraft } from "@/lib/api-client";
 import {
   applyDraftEvent,
@@ -109,6 +110,16 @@ export function ChatPanel({ projectId }: { projectId: string }) {
           ),
         );
       }
+      // 대화 로그 영속 — AI 메시지는 근거(citations) 추적 (헌법 P1, data-model D5)
+      if (activeStageId) {
+        await saveMessage({ stageId: activeStageId, role: "user", content: intent });
+        await saveMessage({
+          stageId: activeStageId,
+          role: "ai",
+          content: draft.content,
+          citations: draft.citations,
+        });
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "AI 응답 실패");
     } finally {
@@ -127,12 +138,43 @@ export function ChatPanel({ projectId }: { projectId: string }) {
     }
   }
 
-  // AI 작성 결과를 에디터로 — 탭 열고 본문 주입 (DB 저장은 T019)
-  function applyToEditor(msg: ChatMessage) {
+  // AI 작성 결과를 에디터로 — 조문 저장 + 스냅샷 + 탭 열기 (T019, §7.6)
+  async function applyToEditor(msg: ChatMessage) {
     if (!activeStageId) return;
     const docId = `stage-${activeStageId}`;
-    upsertDocument({ id: docId, title: "초안.md", value: msg.content });
-    openTab({ id: docId, title: "초안.md" });
+    try {
+      const section = await saveSection({
+        projectId,
+        stageId: activeStageId,
+        articleNo: 1,
+        title: "(초안)",
+        body: msg.content,
+        order: 1,
+      });
+      upsertDocument({
+        id: docId,
+        title: "초안.md",
+        value: msg.content,
+        meta: {
+          sectionId: section.id,
+          projectId,
+          stageId: activeStageId,
+          articleNo: 1,
+          order: 1,
+        },
+      });
+      openTab({ id: docId, title: "초안.md" });
+      // AI 응답 수용 시 시간여행 스냅샷 (§7.6)
+      await createSnapshot({
+        stageId: activeStageId,
+        trigger: "ai_apply",
+        actor: "ai",
+        label: "AI 응답 적용",
+        content: [{ articleNo: 1, body: msg.content }],
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "에디터 적용 실패");
+    }
   }
 
   return (
@@ -194,7 +236,7 @@ export function ChatPanel({ projectId }: { projectId: string }) {
                       size="sm"
                       variant="outline"
                       className="mt-2 h-7"
-                      onClick={() => applyToEditor(msg)}
+                      onClick={() => void applyToEditor(msg)}
                     >
                       <FileDown className="size-3" aria-hidden />
                       에디터에 적용

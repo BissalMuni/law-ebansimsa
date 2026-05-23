@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { X, Columns2, FileText } from "lucide-react";
 
 import { useUIStore } from "@/lib/store/ui-store";
 import { useEditorStore } from "@/lib/store/editor-store";
+import { saveSection } from "@/server/sections";
+import { debounce } from "@/lib/debounce";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -43,7 +45,36 @@ function useMonacoTheme() {
 function Pane({ docId }: { docId: string }) {
   const doc = useEditorStore((s) => s.documents[docId]);
   const setValue = useEditorStore((s) => s.setValue);
+  const setSectionId = useEditorStore((s) => s.setSectionId);
   const theme = useMonacoTheme();
+
+  // 500ms idle 자동저장 (ui-spec §7.6) — meta 가 있는 문서만 OrdinanceSection 으로 저장
+  const autosave = useMemo(
+    () =>
+      debounce(async (value: string) => {
+        const cur = useEditorStore.getState().documents[docId];
+        const meta = cur?.meta;
+        if (!meta || cur.readOnly) return;
+        try {
+          const saved = await saveSection({
+            id: meta.sectionId,
+            projectId: meta.projectId,
+            stageId: meta.stageId,
+            articleNo: meta.articleNo,
+            articleLabel: meta.articleLabel,
+            title: cur.title,
+            body: value,
+            order: meta.order,
+          });
+          if (!meta.sectionId) setSectionId(docId, saved.id);
+        } catch {
+          // 자동저장 실패는 조용히 무시 (다음 idle 에 재시도)
+        }
+      }, 500),
+    [docId, setSectionId],
+  );
+
+  useEffect(() => () => autosave.cancel(), [autosave]);
 
   if (!doc) return null;
   return (
@@ -51,7 +82,11 @@ function Pane({ docId }: { docId: string }) {
       theme={theme}
       language={doc.language}
       value={doc.value}
-      onChange={(v) => setValue(doc.id, v ?? "")}
+      onChange={(v) => {
+        const text = v ?? "";
+        setValue(doc.id, text);
+        autosave(text);
+      }}
       options={{
         readOnly: doc.readOnly,
         minimap: { enabled: false },

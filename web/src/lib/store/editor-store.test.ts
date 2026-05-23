@@ -49,4 +49,32 @@ describe("useEditorStore", () => {
     useEditorStore.getState().setValue("ghost", "x");
     expect(useEditorStore.getState().documents["ghost"]).toBeUndefined();
   });
+
+  it("upsertDocument 는 영속 메타(meta)를 보존한다 (자동저장 대상 식별)", () => {
+    useEditorStore.getState().upsertDocument({
+      id: "d",
+      title: "초안",
+      value: "본문",
+      meta: { projectId: "p1", stageId: "s1", articleNo: 1, order: 1 },
+    });
+    expect(useEditorStore.getState().documents["d"].meta).toEqual({
+      projectId: "p1",
+      stageId: "s1",
+      articleNo: 1,
+      order: 1,
+    });
+  });
+
+  it("setSectionId 는 meta 의 sectionId 만 갱신한다", () => {
+    useEditorStore.getState().upsertDocument({
+      id: "d",
+      title: "초안",
+      value: "본문",
+      meta: { projectId: "p1", stageId: "s1", articleNo: 1, order: 1 },
+    });
+    useEditorStore.getState().setSectionId("d", "sec-123");
+    expect(useEditorStore.getState().documents["d"].meta?.sectionId).toBe(
+      "sec-123",
+    );
+  });
 });
