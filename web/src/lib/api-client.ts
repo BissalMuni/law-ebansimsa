@@ -118,6 +118,14 @@ export function validateInline(body: {
   return postJson("/validate/inline", body);
 }
 
+// 전체 검토 매트릭스 (Stage 7) — 2단계 검증, 전 셀 충족 (헌법 P3)
+export function validateFull(body: {
+  articles: ArticleInput[];
+  criteria: CriterionCell[];
+}): Promise<PreciseResponse> {
+  return postJson<PreciseResponse>("/validate/full", body);
+}
+
 export interface ParsedArticle {
   article_no: number;
   title: string;

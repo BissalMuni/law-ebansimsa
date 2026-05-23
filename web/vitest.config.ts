@@ -6,7 +6,9 @@ import { fileURLToPath } from "node:url";
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: "jsdom",
+    // 현재 테스트는 모두 순수 로직·스토어라 node 로 충분(빠르고 안정적).
+    // DOM 이 필요한 테스트는 파일 상단에 `// @vitest-environment jsdom` 로 개별 지정.
+    environment: "node",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
     include: ["src/**/*.{test,spec}.{ts,tsx}"],

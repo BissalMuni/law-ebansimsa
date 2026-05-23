@@ -17,9 +17,20 @@ from schemas import ArticleInput, CriterionCell, ValidationCellResult
 router = APIRouter()
 
 CellJudge = Callable[[ArticleInput, CriterionCell, str], Awaitable[ValidationCellResult]]
+# 2단계 검토의 1단계 — 셀(조문×기준)이 상세 판단 대상인지(관련성) 결정
+RelevanceFilter = Callable[[ArticleInput, CriterionCell], bool]
 
 # verdict가 채워졌다고 인정하는 값 (pending은 미충족 — P3 누락 0건)
 _FILLED_VERDICTS = {"pass", "fail", "na"}
+
+
+def get_relevance_filter() -> RelevanceFilter:
+    """1단계 관련성 필터 — 기본은 전부 관련(상세 판단). 테스트는 오버라이드한다."""
+
+    def relevant(article: ArticleInput, criterion: CriterionCell) -> bool:
+        return True
+
+    return relevant
 
 
 def get_cell_judge() -> CellJudge:
@@ -104,3 +115,54 @@ async def validate_inline(
     )
     hint = await judge(body.article, criterion, "hint")
     return InlineResponse(hints=[hint])
+
+
+class FullRequest(BaseModel):
+    articles: list[ArticleInput]
+    criteria: list[CriterionCell]
+
+
+class FullResponse(BaseModel):
+    results: list[ValidationCellResult]
+    total_cells: int
+    filled_cells: int
+    complete: bool
+
+
+@router.post("/validate/full", response_model=FullResponse)
+async def validate_full(
+    body: FullRequest,
+    judge: CellJudge = Depends(get_cell_judge),
+    is_relevant: RelevanceFilter = Depends(get_relevance_filter),
+) -> FullResponse:
+    """Stage 7 전체 검토 — 2단계(review --two-stage).
+
+    1단계: 관련성 필터로 상세 판단 대상 셀을 추린다.
+    2단계: 관련 셀만 1조문×1기준으로 판단(P3). 비관련 셀은 na 로 채운다.
+    전 셀(조문×기준)이 빠짐없이 채워졌는지 검증한다 (누락 0건 — P3).
+    """
+    results: list[ValidationCellResult] = []
+    for article in body.articles:
+        for criterion in body.criteria:
+            if is_relevant(article, criterion):
+                results.append(await judge(article, criterion, "violation"))
+            else:
+                results.append(
+                    ValidationCellResult(
+                        article_id=article.article_id,
+                        criterion_id=criterion.criterion_id,
+                        source=criterion.source,
+                        verdict="na",
+                        severity="violation",
+                        reason="해당 조문에 관련 없는 기준",
+                    )
+                )
+
+    total = len(body.articles) * len(body.criteria)
+    filled = sum(1 for r in results if r.verdict in _FILLED_VERDICTS)
+    return FullResponse(
+        results=results,
+        total_cells=total,
+        filled_cells=filled,
+        complete=(total > 0 and filled == total),
+    )
