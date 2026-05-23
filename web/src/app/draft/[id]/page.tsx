@@ -4,6 +4,8 @@ import { getProject } from "@/server/projects";
 import { listStages } from "@/server/stages";
 import { WorkspaceShell } from "@/components/workspace/WorkspaceShell";
 import { StageSidebar } from "@/components/workspace/StageSidebar";
+import { EditorArea } from "@/components/Editor";
+import { ChatPanel } from "@/components/ChatPanel";
 import type { StageStatus } from "@/lib/stages";
 
 // 워크스페이스 — DB 를 읽으므로 요청 시 렌더
@@ -41,6 +43,8 @@ export default async function DraftPage({
           }))}
         />
       }
+      editor={<EditorArea />}
+      chat={<ChatPanel projectId={project.id} />}
     />
   );
 }

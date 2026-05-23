@@ -62,4 +62,12 @@ describe("useUIStore", () => {
     useUIStore.getState().toggleSplitView();
     expect(useUIStore.getState().splitView).toBe(true);
   });
+
+  it("활성 단계는 기본 null 이며 setActiveStage 로 id·key 를 함께 설정한다", () => {
+    expect(useUIStore.getState().activeStageId).toBeNull();
+    expect(useUIStore.getState().activeStageKey).toBeNull();
+    useUIStore.getState().setActiveStage("stage-3", "definition");
+    expect(useUIStore.getState().activeStageId).toBe("stage-3");
+    expect(useUIStore.getState().activeStageKey).toBe("definition");
+  });
 });

@@ -1,25 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 
 import { StageItem, type StageItemData } from "@/components/StageItem";
+import { useUIStore } from "@/lib/store/ui-store";
 
 // Primary Sidebar 단계 뷰 (ui-spec §6.2) — 8단계 트리 + 진행률
-export function StageSidebar({
-  stages,
-  initialStageId,
-}: {
-  stages: StageItemData[];
-  initialStageId?: string;
-}) {
+export function StageSidebar({ stages }: { stages: StageItemData[] }) {
+  const activeStageId = useUIStore((s) => s.activeStageId);
+  const setActiveStage = useUIStore((s) => s.setActiveStage);
+
   // 현재 작성 중(in_progress)·진입 가능(available) 단계를 기본 선택
   const fallback =
-    stages.find((s) => s.status === "in_progress")?.id ??
-    stages.find((s) => s.status === "available")?.id ??
-    stages[0]?.id;
-  const [currentId, setCurrentId] = useState<string | undefined>(
-    initialStageId ?? fallback,
-  );
+    stages.find((s) => s.status === "in_progress") ??
+    stages.find((s) => s.status === "available") ??
+    stages[0];
+
+  useEffect(() => {
+    if (!activeStageId && fallback) {
+      setActiveStage(fallback.id, fallback.key);
+    }
+  }, [activeStageId, fallback, setActiveStage]);
 
   const total = stages.length || 1;
   const confirmed = stages.filter((s) => s.status === "confirmed").length;
@@ -36,8 +37,8 @@ export function StageSidebar({
           <StageItem
             key={s.id}
             stage={s}
-            isCurrent={s.id === currentId}
-            onSelect={setCurrentId}
+            isCurrent={s.id === activeStageId}
+            onSelect={() => setActiveStage(s.id, s.key)}
           />
         ))}
       </nav>

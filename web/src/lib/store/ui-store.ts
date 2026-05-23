@@ -18,12 +18,16 @@ interface UIState {
   tabs: EditorTab[];
   activeTabId: string | null;
   splitView: boolean;
+  // 현재 작업 중인 단계 (채팅·검증의 컨텍스트)
+  activeStageId: string | null;
+  activeStageKey: string | null;
 
   togglePanel: (panel: PanelKey) => void;
   openTab: (tab: EditorTab) => void;
   closeTab: (id: string) => void;
   setActiveTab: (id: string) => void;
   toggleSplitView: () => void;
+  setActiveStage: (id: string, key: string) => void;
 }
 
 const PANEL_FIELD: Record<PanelKey, keyof UIState> = {
@@ -39,6 +43,8 @@ export const useUIStore = create<UIState>((set) => ({
   tabs: [],
   activeTabId: null,
   splitView: false,
+  activeStageId: null,
+  activeStageKey: null,
 
   togglePanel: (panel) =>
     set((state) => {
@@ -72,4 +78,6 @@ export const useUIStore = create<UIState>((set) => ({
   setActiveTab: (id) => set({ activeTabId: id }),
 
   toggleSplitView: () => set((state) => ({ splitView: !state.splitView })),
+
+  setActiveStage: (id, key) => set({ activeStageId: id, activeStageKey: key }),
 }));
