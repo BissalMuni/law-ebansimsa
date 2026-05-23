@@ -1,17 +1,20 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Bot, User, BookMarked, FileDown, Send } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Bot, User, BookMarked, FileDown, Send, Landmark } from "lucide-react";
 
 import { useUIStore } from "@/lib/store/ui-store";
 import { useEditorStore } from "@/lib/store/editor-store";
 import { saveMessage, saveSection, createSnapshot } from "@/server/sections";
+import { listReferences } from "@/server/references";
+import { toDraftReferences, type ReferenceLike } from "@/lib/references";
 import { streamDraft } from "@/lib/api-client";
 import {
   applyDraftEvent,
   hasNoBasis,
   initialDraftState,
 } from "@/lib/chat";
+import { ReferenceSearch } from "@/components/ReferenceSearch";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -70,7 +73,27 @@ export function ChatPanel({ projectId }: { projectId: string }) {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [refs, setRefs] = useState<ReferenceLike[]>([]);
+  const [refModalOpen, setRefModalOpen] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+
+  // 첨부된 참고 조례 로드 (US7) — includedInContext 만 draft 에 전달
+  useEffect(() => {
+    listReferences(projectId)
+      .then((rs) =>
+        setRefs(
+          rs.map((r) => ({
+            title: r.title,
+            municipality: r.municipality,
+            content: r.content,
+            includedInContext: r.includedInContext,
+          })),
+        ),
+      )
+      .catch(() => {});
+  }, [projectId, refModalOpen]);
+
+  const includedRefs = toDraftReferences(refs);
 
   async function send() {
     const intent = input.trim();
@@ -98,7 +121,7 @@ export function ChatPanel({ projectId }: { projectId: string }) {
 
     try {
       for await (const ev of streamDraft(
-        { stage_key: activeStageKey, intent },
+        { stage_key: activeStageKey, intent, references: includedRefs },
         controller.signal,
       )) {
         draft = applyDraftEvent(draft, ev);
@@ -185,7 +208,23 @@ export function ChatPanel({ projectId }: { projectId: string }) {
         {activeStageKey && (
           <span className="text-xs text-muted-foreground">· {activeStageKey}</span>
         )}
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          className="ml-auto h-7"
+          onClick={() => setRefModalOpen(true)}
+        >
+          <Landmark className="size-3.5" aria-hidden />
+          참고 {includedRefs.length > 0 && `(${includedRefs.length})`}
+        </Button>
       </header>
+
+      <ReferenceSearch
+        open={refModalOpen}
+        onOpenChange={setRefModalOpen}
+        projectId={projectId}
+      />
 
       {/* 메시지 로그 — 스크린리더 자동 안내 (ui-spec §12) */}
       <div

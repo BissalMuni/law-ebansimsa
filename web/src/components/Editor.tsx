@@ -9,7 +9,8 @@ import { useUIStore } from "@/lib/store/ui-store";
 import { useEditorStore } from "@/lib/store/editor-store";
 import { saveSection } from "@/server/sections";
 import { debounce } from "@/lib/debounce";
-import { streamDraft } from "@/lib/api-client";
+import { streamDraft, validateInline } from "@/lib/api-client";
+import { useProblemsStore } from "@/lib/store/problems-store";
 import { applyDraftEvent, initialDraftState } from "@/lib/chat";
 import { buildRewriteIntent, type RewriteKind } from "@/lib/rewrite";
 import { cn } from "@/lib/utils";
@@ -88,6 +89,30 @@ function Pane({ docId }: { docId: string }) {
 
   useEffect(() => () => autosave.cancel(), [autosave]);
 
+  // 작성 중 가벼운 인라인 힌트 (T032, FR-006) — 700ms idle 후 Haiku 검증
+  const setHints = useProblemsStore((s) => s.setHints);
+  const inlineCheck = useMemo(
+    () =>
+      debounce(async (value: string) => {
+        const cur = useEditorStore.getState().documents[docId];
+        if (!cur || !value.trim()) return;
+        try {
+          const { hints } = await validateInline({
+            article: {
+              article_id: cur.meta?.sectionId ?? docId,
+              title: cur.title,
+              text: value,
+            },
+          });
+          setHints(hints);
+        } catch {
+          // 힌트 실패는 무시
+        }
+      }, 700),
+    [docId, setHints],
+  );
+  useEffect(() => () => inlineCheck.cancel(), [inlineCheck]);
+
   // --- 부유 툴바: 선택 영역 감지 + AI 재작성 (T025) ---
   const editorRef = useRef<MonacoEditorInstance | null>(null);
   const [selection, setSelection] = useState<SelectionState | null>(null);
@@ -154,6 +179,7 @@ function Pane({ docId }: { docId: string }) {
           const text = v ?? "";
           setValue(doc.id, text);
           autosave(text);
+          inlineCheck(text);
         }}
         options={{
           readOnly: doc.readOnly,

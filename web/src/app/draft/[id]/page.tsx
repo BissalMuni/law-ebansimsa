@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getProject } from "@/server/projects";
 import { listStages } from "@/server/stages";
 import { listSections } from "@/server/sections";
-import { DiffView } from "@/components/DiffView";
+import { BottomPanel } from "@/components/workspace/BottomPanel";
 import { WorkspaceShell } from "@/components/workspace/WorkspaceShell";
 import { StageSidebar } from "@/components/workspace/StageSidebar";
 import { EditorArea } from "@/components/Editor";
@@ -71,16 +71,19 @@ export default async function DraftPage({
       }
       chat={<ChatPanel projectId={project.id} />}
       bottomPanel={
-        isAmend ? (
-          <DiffView
-            sections={sections.map((s) => ({
-              articleNo: s.articleNo,
-              articleLabel: s.articleLabel,
-              originalBody: s.originalBody,
-              body: s.body,
-            }))}
-          />
-        ) : undefined
+        <BottomPanel
+          projectId={project.id}
+          amendSections={
+            isAmend
+              ? sections.map((s) => ({
+                  articleNo: s.articleNo,
+                  articleLabel: s.articleLabel,
+                  originalBody: s.originalBody,
+                  body: s.body,
+                }))
+              : undefined
+          }
+        />
       }
     />
   );

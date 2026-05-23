@@ -43,9 +43,9 @@
 - [x] [T027] 개정 모드 기존 조례 로드 모달(업로드/검색/붙여넣기) (US6) (`web/src/components/LoadOrdinanceModal.tsx`)
 - [x] [T028] Monaco DiffEditor + 조 단위 정렬(jsdiff) + 변경 카운트 (`web/src/components/DiffView.tsx`)
 - [x] [T029] `api` `/search/ordinances` — 국가법령정보센터 OpenAPI (P4) (`api/routers/search.py`, `pipeline/search/`)
-- [ ] [T030] 타 지자체 검색 모달 + AI 컨텍스트 첨부 (US7) (`web/src/components/ReferenceSearch.tsx`)
+- [x] [T030] 타 지자체 검색 모달 + AI 컨텍스트 첨부 (US7) (`web/src/components/ReferenceSearch.tsx`)
 - [x] [T031] `api` `/validate/inline` — Haiku 힌트 (`api/routers/validate.py`)
-- [ ] [T032] 인라인 힌트 표시(문제 패널) (`web/src/components/ProblemsPanel.tsx`)
+- [x] [T032] 인라인 힌트 표시(문제 패널) (`web/src/components/ProblemsPanel.tsx`)
 - [ ] [T033] 이력·시간여행 — Snapshot 타임라인 (US8) (`web/src/components/HistoryView.tsx`)
 - [ ] [T034] `api` `/validate/full` + 검토 매트릭스 탭 (Stage 7) (`api/routers/validate.py`, `web/src/components/ReviewMatrix.tsx`)
 
