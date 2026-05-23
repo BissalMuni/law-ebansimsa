@@ -21,11 +21,11 @@
 
 ## Phase 2 — Core (제정 흐름 MVP)
 
-- [ ] [T011] Project CRUD — Server Actions + Prisma (`web/src/server/projects.ts`)
-- [ ] [T012] `/new` 작업 종류 선택 화면(제정/일부개정/전부개정) (`web/src/app/new/page.tsx`)
-- [ ] [T013] `/draft/[id]` 워크스페이스 셸 — VS Code 6대 영역 레이아웃 (`web/src/app/draft/[id]/page.tsx`)
-- [ ] [T014] StageItem + 단계 사이드바 + 표준 8단계 시드 (`web/src/components/StageItem.tsx`, `web/src/server/stages.ts`)
-- [ ] [T015] 단계 잠금 로직 — locked→…→confirmed, 우회 불가 + 확정 단계 수정 시 이후 단계 `stale` 마킹 (P2, FR-004) (`web/src/server/stages.ts`)
+- [x] [T011] Project CRUD — Server Actions + Prisma (`web/src/server/projects.ts`)
+- [x] [T012] `/new` 작업 종류 선택 화면(제정/일부개정/전부개정) (`web/src/app/new/page.tsx`)
+- [x] [T013] `/draft/[id]` 워크스페이스 셸 — VS Code 6대 영역 레이아웃 (`web/src/app/draft/[id]/page.tsx`)
+- [x] [T014] StageItem + 단계 사이드바 + 표준 8단계 시드 (`web/src/components/StageItem.tsx`, `web/src/server/stages.ts`)
+- [x] [T015] 단계 잠금 로직 — locked→…→confirmed, 우회 불가 + 확정 단계 수정 시 이후 단계 `stale` 마킹 (P2, FR-004) (`web/src/server/stages.ts`)
 - [x] [T016] `api` `/draft/generate` SSE — pipeline/draft, 위키 근거 주입, 복제 금지(P4) (`api/routers/draft.py`, `pipeline/draft/`)
 - [ ] [T017] Monaco 에디터 통합 + 조문 표시 + 멀티탭·split 뷰 (FR-014) (`web/src/components/Editor.tsx`)
 - [ ] [T018] AI 채팅 패널(Secondary Sidebar) + 근거 토글 (P1) (`web/src/components/ChatPanel.tsx`)
