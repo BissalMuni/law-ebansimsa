@@ -20,6 +20,7 @@ __pycache__/
 
 # Node / Next.js (web/)
 node_modules/
+.pnpm-store/
 .next/
 *.tsbuildinfo
 
