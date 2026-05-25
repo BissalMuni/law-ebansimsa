@@ -27,7 +27,9 @@ export default function RootLayout({
   // FOUC 방지 — 페인트 전에 저장된 테마(또는 OS 선호)를 적용
   const themeInit = `(function(){try{var t=localStorage.getItem('law-ebansimsa-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
   return (
-    <html lang="ko">
+    // suppressHydrationWarning: 위 themeInit 스크립트가 페인트 전 <html>에 .dark 를
+    // 주입하므로 서버 마크업과 1단계 불일치가 정상 — React 경고만 억제한다 (next-themes 패턴)
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
