@@ -15,7 +15,8 @@ model Project {
   id           String    @id @default(cuid())
   kind         String    // enact | amend_partial | amend_full
   title        String    // 제명 (예: 청년 창업 지원 조례)
-  municipality String    // 지자체명
+  municipality String    // 지자체명 (시도 + 시군구 합성, 예: 서울특별시 강남구)
+  sourceUrl    String?   // 개정 모드: 원문 출처(국가법령정보센터 상세링크)
   status       String    @default("active") // active | locked
   progress     Int       @default(0)         // 0-100, 파생 캐시
   createdAt    DateTime  @default(now())

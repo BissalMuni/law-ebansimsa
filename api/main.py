@@ -7,11 +7,17 @@ DB에 접근하지 않는다 — 입력을 HTTP로 받아 계산 결과만 반�
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import draft, export, parse, search, validate
+# .env.local 을 가장 먼저 로드 — LAW_OPENAPI_OC 등 비밀값을 os.environ 에 주입한다.
+# routers import 가 환경변수를 읽기 전에 실행돼야 하므로 최상단에 둔다 (git 추적 제외).
+load_dotenv(Path(__file__).parent / ".env.local")
+
+from routers import draft, export, parse, search, validate  # noqa: E402
 
 app = FastAPI(title="Law-Ebansimsa API", version="0.1.0")
 

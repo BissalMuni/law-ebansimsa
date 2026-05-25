@@ -16,6 +16,7 @@ output/**/*_images/
 # Python
 __pycache__/
 .venv/
+.venv-win/
 *.egg-info/
 
 # Node / Next.js (web/)
@@ -30,6 +31,8 @@ node_modules/
 
 # Docker Claude dangerous mode
 .env
+.env.local
+.env.*.local
 Dockerfile.claude
 docker-compose.claude.yml
 .claude-output/

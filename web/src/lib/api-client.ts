@@ -144,6 +144,7 @@ export interface OrdinanceHit {
   title: string;
   municipality: string | null;
   source_url: string | null;
+  id: string | null; // 자치법규일련번호 — 본문 자동 로드 키
 }
 
 // 타 지자체 조례 검색 — 국가법령정보센터 OpenAPI (헌법 P4 참고 전용)
@@ -156,6 +157,16 @@ export async function searchOrdinances(
   const resp = await fetch(`${API_BASE}/search/ordinances?${params}`);
   if (!resp.ok) throw new Error(`검색 실패: ${resp.status}`);
   return resp.json() as Promise<{ hits: OrdinanceHit[] }>;
+}
+
+// 자치법규 일련번호로 본문 원문을 자동 로드 (개정 입안 — 복붙 대체)
+export async function fetchOrdinanceContent(
+  id: string,
+): Promise<{ content: string }> {
+  const params = new URLSearchParams({ id });
+  const resp = await fetch(`${API_BASE}/search/ordinances/content?${params}`);
+  if (!resp.ok) throw new Error(`원문 로드 실패: ${resp.status}`);
+  return resp.json() as Promise<{ content: string }>;
 }
 
 // 출력물은 온디맨드 재생성 — bytes를 받아 다운로드한다 (헌법 P7, blob 비영속)
